@@ -134,12 +134,12 @@ namespace CarFactoryFileImplement
                 {
                     xElement.Add(new XElement("Order",
                      new XAttribute("Id", order.Id),
-                new XElement("CarId", order.CarId),
-                new XElement("Count", order.Count),
-                new XElement("Sum", order.Sum),
-                new XElement("Status", (int)order.Status),
-                new XElement("DateCreate", order.DateCreate),
-                new XElement("DateImplement", order.DateImplement)));
+                     new XElement("CarId", order.CarId),
+                     new XElement("Count", order.Count),
+                     new XElement("Sum", order.Sum),
+                     new XElement("Status", (int)order.Status),
+                     new XElement("DateCreate", order.DateCreate),
+                     new XElement("DateImplement", order.DateImplement)));
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(OrderFileName);
