@@ -155,9 +155,9 @@
       <Project>{41496446-87a9-4320-b731-2418484a2f83}</Project>
       <Name>CarFactoryBusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CarFactoryListImplement\CarFactoryListImplement.csproj">
-      <Project>{64bde202-00f4-4c00-a9a8-28867ed9b7c0}</Project>
-      <Name>CarFactoryListImplement</Name>
+    <ProjectReference Include="..\CarFactoryFileImplement\CarFactoryFileImplement.csproj">
+      <Project>{a556dc99-4a20-471d-bc1e-733b29b61015}</Project>
+      <Name>CarFactoryFileImplement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
