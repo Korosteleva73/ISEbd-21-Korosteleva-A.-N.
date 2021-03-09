@@ -156,19 +156,19 @@ namespace CarFactoryListImplement.Implements
 
             foreach (var warehouseDetail in warehouse.WarehouseDetails)
             {
-                string materialName = string.Empty;
+                string detailName = string.Empty;
 
                 foreach (var detail in source.Details)
                 {
                     if (warehouseDetail.Key == detail.Id)
                     {
-                        materialName = detail.DetailName;
+                        detailName = detail.DetailName;
 
                         break;
                     }
                 }
 
-                warehouseDetails.Add(warehouseDetail.Key, (materialName, warehouseDetail.Value));
+                warehouseDetails.Add(warehouseDetail.Key, (detailName, warehouseDetail.Value));
             }
 
             return new WarehouseViewModel

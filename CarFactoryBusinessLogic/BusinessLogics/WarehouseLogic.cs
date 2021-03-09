@@ -81,7 +81,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                 Id = model.WarehouseId
             });
 
-            var material = _detailStorage.GetElement(new DetailBindingModel
+            var detail = _detailStorage.GetElement(new DetailBindingModel
             {
                 Id = model.DetailId
             });
@@ -91,18 +91,18 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                 throw new Exception("Не найден склад");
             }
 
-            if (material == null)
+            if (detail == null)
             {
                 throw new Exception("Не найдена деталь");
             }
 
             if (warehouse.WarehouseDetails.ContainsKey(model.DetailId))
             {
-                warehouse.WarehouseDetails[model.DetailId] = (material.DetailName, warehouse.WarehouseDetails[model.DetailId].Item2 + model.Count);
+                warehouse.WarehouseDetails[model.DetailId] = (detail.DetailName, warehouse.WarehouseDetails[model.DetailId].Item2 + model.Count);
             }
             else
             {
-                warehouse.WarehouseDetails.Add(material.Id, (material.DetailName, model.Count));
+                warehouse.WarehouseDetails.Add(detail.Id, (detail.DetailName, model.Count));
             }
 
             _warehouseStorage.Update(new WarehouseBindingModel

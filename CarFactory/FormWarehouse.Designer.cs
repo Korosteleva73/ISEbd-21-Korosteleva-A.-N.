@@ -29,14 +29,15 @@
         private void InitializeComponent()
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.Detail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBoxBoss = new System.Windows.Forms.TextBox();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelBoss = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.DetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Detail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,9 +47,10 @@
             this.dataGridView.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DetailId,
             this.Detail,
             this.Count});
-            this.dataGridView.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView.Location = new System.Drawing.Point(21, 12);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowHeadersWidth = 51;
@@ -56,19 +58,6 @@
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(376, 426);
             this.dataGridView.TabIndex = 0;
-            // 
-            // Detail
-            // 
-            this.Detail.HeaderText = "Детали";
-            this.Detail.MinimumWidth = 6;
-            this.Detail.Name = "Detail";
-            // 
-            // Count
-            // 
-            this.Count.HeaderText = "Количество";
-            this.Count.MinimumWidth = 6;
-            this.Count.Name = "Count";
-            this.Count.ReadOnly = true;
             // 
             // textBoxBoss
             // 
@@ -128,6 +117,26 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
+            // DetailId
+            // 
+            this.DetailId.HeaderText = "detailId";
+            this.DetailId.MinimumWidth = 6;
+            this.DetailId.Name = "DetailId";
+            this.DetailId.Visible = false;
+            // 
+            // Detail
+            // 
+            this.Detail.HeaderText = "Детали";
+            this.Detail.MinimumWidth = 6;
+            this.Detail.Name = "Detail";
+            // 
+            // Count
+            // 
+            this.Count.HeaderText = "Количество";
+            this.Count.MinimumWidth = 6;
+            this.Count.Name = "Count";
+            this.Count.ReadOnly = true;
+            // 
             // FormWarehouse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -152,13 +161,14 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Detail;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
         private System.Windows.Forms.TextBox textBoxBoss;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelBoss;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DetailId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Detail;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
     }
 }

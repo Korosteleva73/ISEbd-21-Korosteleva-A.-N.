@@ -34,7 +34,6 @@ namespace CarFactoryView
                 if (warehouseDetails != null)
                 {
                     dataGridView.Rows.Clear();
-
                     foreach (var warehouseDetail in warehouseDetails)
                     {
                         dataGridView.Rows.Add(new object[]
