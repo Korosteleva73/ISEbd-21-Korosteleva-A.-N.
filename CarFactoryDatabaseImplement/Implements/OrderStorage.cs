@@ -38,7 +38,7 @@ namespace CarFactoryDatabaseImplement.Implements
             using (var context = new CarFactoryDatabase())
             {
                 return context.Orders
-                    .Where(rec => rec.CarId == model.CarId)
+                     .Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
                     .Select(rec => new OrderViewModel
                     {
                         Id = rec.Id,

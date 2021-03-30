@@ -12,11 +12,13 @@ namespace CarFactoryView
         public new IUnityContainer Container { get; set; }
         private readonly OrderLogic _orderLogic;
         private readonly CarLogic _carLogic;
-        public FormCarFactory(OrderLogic orderLogic, CarLogic carLogic)
+        private readonly ReportLogic _reportLogic;
+        public FormCarFactory(OrderLogic orderLogic, CarLogic carLogic,ReportLogic reportLogic)
         {
             InitializeComponent();
             this._orderLogic = orderLogic;
             this._carLogic = carLogic;
+            this._reportLogic = reportLogic;
         }
         private void FormCarFactory_Load(object sender, EventArgs e)
         {
@@ -128,6 +130,36 @@ namespace CarFactoryView
         private void ButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void СписокМашинToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _reportLogic.SaveCarsToWordFile(new ReportBindingModel
+                    {
+                        FileName =
+                   dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+                }
+            }
+        }
+
+
+        private void ДеталиМашиныToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportCarDetails>();
+            form.ShowDialog();
+        }
+
+        private void СписокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportAboutOrders>();
+            form.ShowDialog();
         }
     }
 }

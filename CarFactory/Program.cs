@@ -34,6 +34,8 @@ namespace CarFactoryView
             currentContainer.RegisterType<OrderLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<CarLogic>(new
            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ReportLogic>(new
+HierarchicalLifetimeManager());
             return currentContainer;
         }
     }
