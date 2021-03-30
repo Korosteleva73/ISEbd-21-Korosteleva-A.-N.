@@ -10,9 +10,9 @@ namespace CarFactoryDatabaseImplement.Models
         public string CarName { get; set; }
         [Required]
         public decimal Price { get; set; }
-        [ForeignKey("ProductId")]
+        [ForeignKey("CarId")]
         public virtual List<CarDetail> CarDetails { get; set; }
-        [ForeignKey("ProductId")]
+        [ForeignKey("CarId")]
         public virtual List<Order> Orders { get; set; }
     }
 }

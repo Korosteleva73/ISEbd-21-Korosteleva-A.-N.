@@ -54,14 +54,11 @@ namespace CarFactoryDatabaseImplement.Migrations
                     b.Property<int>("DetailId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("DetailId");
+                    b.HasIndex("CarId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("DetailId");
 
                     b.ToTable("CarDetails");
                 });
@@ -101,9 +98,6 @@ namespace CarFactoryDatabaseImplement.Migrations
                     b.Property<DateTime?>("DateImplement")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -112,29 +106,33 @@ namespace CarFactoryDatabaseImplement.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("CarId");
 
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("CarFactoryDatabaseImplement.Models.CarDetail", b =>
                 {
+                    b.HasOne("CarFactoryDatabaseImplement.Models.Car", "Car")
+                        .WithMany("CarDetails")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CarFactoryDatabaseImplement.Models.Detail", "Detail")
                         .WithMany("CarDetails")
                         .HasForeignKey("DetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CarFactoryDatabaseImplement.Models.Car", "Car")
-                        .WithMany("CarDetails")
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("CarFactoryDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("CarFactoryDatabaseImplement.Models.Car", "Car")
                         .WithMany("Orders")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
