@@ -92,13 +92,13 @@
             // reportViewer
             // 
             this.reportViewer.LocalReport.ReportEmbeddedResource = "CarFactory.ReportViewerOrder.rdlc";
-            this.reportViewer.Location = new System.Drawing.Point(16, 41);
+            this.reportViewer.Location = new System.Drawing.Point(12, 41);
             this.reportViewer.Name = "reportViewer";
             this.reportViewer.ServerReport.BearerToken = null;
-            this.reportViewer.Size = new System.Drawing.Size(772, 397);
-            this.reportViewer.TabIndex = 6;
+            this.reportViewer.Size = new System.Drawing.Size(776, 397);
+            this.reportViewer.TabIndex = 7;
             // 
-            // FormReportOrders
+            // FormReportAboutOrders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -110,7 +110,7 @@
             this.Controls.Add(this.labelTo);
             this.Controls.Add(this.dateTimePickerFrom);
             this.Controls.Add(this.labelFrom);
-            this.Name = "FormReportOrders";
+            this.Name = "FormReportAboutOrders";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.FormReportOrders_Load);
             this.ResumeLayout(false);

@@ -82,6 +82,7 @@ namespace CarFactoryView
         {
 
             this.reportViewer.RefreshReport();
+            this.reportViewer.RefreshReport();
         }
     }
 }
