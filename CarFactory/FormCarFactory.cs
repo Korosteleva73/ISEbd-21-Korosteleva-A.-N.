@@ -11,13 +11,11 @@ namespace CarFactoryView
         [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly OrderLogic _orderLogic;
-        private readonly CarLogic _carLogic;
         private readonly ReportLogic _reportLogic;
-        public FormCarFactory(OrderLogic orderLogic, CarLogic carLogic,ReportLogic reportLogic)
+        public FormCarFactory(OrderLogic orderLogic,ReportLogic reportLogic)
         {
             InitializeComponent();
             this._orderLogic = orderLogic;
-            this._carLogic = carLogic;
             this._reportLogic = reportLogic;
         }
         private void FormCarFactory_Load(object sender, EventArgs e)
@@ -31,17 +29,6 @@ namespace CarFactoryView
                 var ordersList = _orderLogic.Read(null);
                 if (ordersList != null)
                 {
-                    var carsList = _carLogic.Read(null);
-                    foreach (OrderViewModel order in ordersList)
-                    {
-                        foreach (CarViewModel car in carsList)
-                        {
-                            if (car.Id == order.CarId)
-                            {
-                                order.CarName = car.CarName;
-                            }
-                        }
-                    }
                     dataGridViewCarFactory.DataSource = ordersList;
                     dataGridViewCarFactory.Columns[0].Visible = false;
                     dataGridViewCarFactory.Columns[1].Visible = false;

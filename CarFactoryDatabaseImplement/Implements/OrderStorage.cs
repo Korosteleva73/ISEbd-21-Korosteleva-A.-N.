@@ -2,6 +2,7 @@
 using CarFactoryBusinessLogic.Interfaces;
 using CarFactoryBusinessLogic.ViewModels;
 using CarFactoryDatabaseImplement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace CarFactoryDatabaseImplement.Implements
             using (var context = new CarFactoryDatabase())
             {
                 return context.Orders
+                    .Include(rec =>rec.Car)
                     .Select(rec => new OrderViewModel
                     {
                         Id = rec.Id,
@@ -39,6 +41,7 @@ namespace CarFactoryDatabaseImplement.Implements
             {
                 return context.Orders
                      .Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                     .Include(rec => rec.Car)
                     .Select(rec => new OrderViewModel
                     {
                         Id = rec.Id,
@@ -61,7 +64,7 @@ namespace CarFactoryDatabaseImplement.Implements
             }
             using (var context = new CarFactoryDatabase())
             {
-                var order = context.Orders
+                var order = context.Orders.Include(rec => rec.Car)
                     .FirstOrDefault(rec => rec.Id == model.Id);
 
                 return order != null ?
