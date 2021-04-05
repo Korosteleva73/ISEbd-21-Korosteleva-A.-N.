@@ -42,17 +42,7 @@ namespace CarFactoryDatabaseImplement.Implements
                 return context.Orders
                      .Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
                      .Include(rec => rec.Car)
-                    .Select(rec => new OrderViewModel
-                    {
-                        Id = rec.Id,
-                        CarName = rec.Car.CarName,
-                        CarId = rec.CarId,
-                        Count = rec.Count,
-                        Sum = rec.Sum,
-                        Status = rec.Status,
-                        DateCreate = rec.DateCreate,
-                        DateImplement = rec.DateImplement
-                    })
+                    .Select(CreateModel)
                     .ToList();
             }
         }
@@ -119,6 +109,22 @@ namespace CarFactoryDatabaseImplement.Implements
                 context.SaveChanges();
             }
         }
+
+        private OrderViewModel CreateModel(Order order)
+        {
+            return new OrderViewModel
+            {
+                Id = order.Id,
+                CarId = order.CarId,
+                CarName = order.Car.CarName,
+                Count = order.Count,
+                Sum = order.Sum,
+                Status = order.Status,
+                DateCreate = order.DateCreate,
+                DateImplement = order?.DateImplement
+            };
+        }
+
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.CarId = model.CarId;
