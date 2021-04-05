@@ -1,6 +1,5 @@
 ﻿using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.BusinessLogics;
-using CarFactoryBusinessLogic.ViewModels;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -11,12 +10,10 @@ namespace CarFactoryView
         [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly OrderLogic _orderLogic;
-        private readonly CarLogic _carLogic;
         public FormCarFactory(OrderLogic orderLogic, CarLogic carLogic)
         {
             InitializeComponent();
             this._orderLogic = orderLogic;
-            this._carLogic = carLogic;
         }
         private void FormCarFactory_Load(object sender, EventArgs e)
         {
@@ -29,17 +26,6 @@ namespace CarFactoryView
                 var ordersList = _orderLogic.Read(null);
                 if (ordersList != null)
                 {
-                    var carsList = _carLogic.Read(null);
-                    foreach (OrderViewModel order in ordersList)
-                    {
-                        foreach (CarViewModel car in carsList)
-                        {
-                            if (car.Id == order.CarId)
-                            {
-                                order.CarName = car.CarName;
-                            }
-                        }
-                    }
                     dataGridViewCarFactory.DataSource = ordersList;
                     dataGridViewCarFactory.Columns[0].Visible = false;
                     dataGridViewCarFactory.Columns[1].Visible = false;
