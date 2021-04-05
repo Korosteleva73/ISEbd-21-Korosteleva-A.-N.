@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 namespace CarFactoryDatabaseImplement.Implements
 {
     public class OrderStorage : IOrderStorage
@@ -15,20 +15,9 @@ namespace CarFactoryDatabaseImplement.Implements
         {
             using (var context = new CarFactoryDatabase())
             {
-                return context.Orders
-                    .Include(rec =>rec.Car)
-                    .Select(rec => new OrderViewModel
-                    {
-                        Id = rec.Id,
-                        CarName = rec.Car.CarName,
-                        CarId = rec.CarId,
-                        Count = rec.Count,
-                        Sum = rec.Sum,
-                        Status = rec.Status,
-                        DateCreate = rec.DateCreate,
-                        DateImplement = rec.DateImplement
-                    })
-                    .ToList();
+                return context.Orders.Include(rec => rec.Car)
+                    .Include(rec => rec.Client)
+                    .Select(CreateModel).ToList();
             }
         }
         public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
@@ -40,25 +29,28 @@ namespace CarFactoryDatabaseImplement.Implements
             using (var context = new CarFactoryDatabase())
             {
                 return context.Orders
-.Include(rec => rec.Car)
-.Include(rec => rec.Client)
-.Where(rec => (!model.DateFrom.HasValue &&
-!model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
-(model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >=
-model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
-(model.ClientId.HasValue && rec.ClientId == model.ClientId))
-.Select(CreateModel).ToList();
+                    .Include(rec => rec.Car)
+                    .Include(rec => rec.Client)
+                    .Where(rec => (!model.DateFrom.HasValue &&
+                    !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
+                    (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >=
+                    model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
+                    (model.ClientId.HasValue && rec.ClientId == model.ClientId))
+                    .Select(CreateModel).ToList();
             }
         }
+
         public OrderViewModel GetElement(OrderBindingModel model)
         {
             if (model == null)
             {
                 return null;
             }
+
             using (var context = new CarFactoryDatabase())
             {
-                var order = context.Orders.Include(rec => rec.Car)
+                var order = context.Orders
+                    .Include(rec => rec.Car)
                     .FirstOrDefault(rec => rec.Id == model.Id);
 
                 return order != null ?
@@ -109,6 +101,7 @@ model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
                 {
                     throw new Exception("Заказ не найден");
                 }
+
                 context.Orders.Remove(order);
                 context.SaveChanges();
             }
@@ -129,6 +122,7 @@ model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
                 DateImplement = order?.DateImplement
             };
         }
+
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.CarId = model.CarId;

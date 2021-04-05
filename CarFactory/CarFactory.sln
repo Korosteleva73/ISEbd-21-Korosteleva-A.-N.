@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactoryListImplement", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactoryFileImplement", "..\CarFactoryFileImplement\CarFactoryFileImplement.csproj", "{A556DC99-4A20-471D-BC1E-733B29B61015}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarFactoryDatabaseImplement", "..\CarFactoryDatabaseImplement\CarFactoryDatabaseImplement.csproj", "{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactoryDatabaseImplement", "..\CarFactoryDatabaseImplement\CarFactoryDatabaseImplement.csproj", "{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactorypRestApi", "..\CarFactorypRestApi\CarFactorypRestApi.csproj", "{7ADD30B7-A083-4E10-B9A2-4ED44DAE5545}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarFactoryClientApp", "..\CarFactoryClientApp\CarFactoryClientApp.csproj", "{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ADD30B7-A083-4E10-B9A2-4ED44DAE5545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ADD30B7-A083-4E10-B9A2-4ED44DAE5545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ADD30B7-A083-4E10-B9A2-4ED44DAE5545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ADD30B7-A083-4E10-B9A2-4ED44DAE5545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

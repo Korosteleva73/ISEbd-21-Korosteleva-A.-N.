@@ -32,6 +32,7 @@ namespace CarFactoryView
                     dataGridViewCarFactory.DataSource = ordersList;
                     dataGridViewCarFactory.Columns[0].Visible = false;
                     dataGridViewCarFactory.Columns[1].Visible = false;
+                    dataGridViewCarFactory.Columns[2].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -146,6 +147,12 @@ namespace CarFactoryView
         private void СписокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportAboutOrders>();
+            form.ShowDialog();
+        }
+
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }
