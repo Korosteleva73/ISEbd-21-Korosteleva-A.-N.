@@ -56,6 +56,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 CarId = order.CarId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -78,6 +79,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 CarId = order.CarId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -101,6 +103,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 CarId = order.CarId,
                 Count = order.Count,
                 Sum = order.Sum,

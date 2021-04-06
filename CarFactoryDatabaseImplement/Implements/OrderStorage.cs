@@ -51,12 +51,15 @@ namespace CarFactoryDatabaseImplement.Implements
             {
                 var order = context.Orders
                     .Include(rec => rec.Car)
+                    .Include(rec => rec.Client)
                     .FirstOrDefault(rec => rec.Id == model.Id);
 
                 return order != null ?
                     new OrderViewModel
                     {
                         Id = order.Id,
+                        ClientId = order.CarId,
+                        ClientFIO = order.Client.ClientFIO,
                         CarName = context.Cars.FirstOrDefault(rec => rec.Id == order.CarId)?.CarName,
                         CarId = order.CarId,
                         Count = order.Count,
