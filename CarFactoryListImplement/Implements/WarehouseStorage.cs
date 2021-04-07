@@ -180,5 +180,10 @@ namespace CarFactoryListImplement.Implements
                 WarehouseDetails = warehouseDetails
             };
         }
+
+        public bool TakeDetails(Dictionary<int, (string, int)> details, int necessaryDetailsCount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
