@@ -55,19 +55,7 @@ namespace CarFactoryDatabaseImplement.Implements
                     .FirstOrDefault(rec => rec.Id == model.Id);
 
                 return order != null ?
-                    new OrderViewModel
-                    {
-                        Id = order.Id,
-                        ClientId = order.CarId,
-                        ClientFIO = order.Client.ClientFIO,
-                        CarName = context.Cars.FirstOrDefault(rec => rec.Id == order.CarId)?.CarName,
-                        CarId = order.CarId,
-                        Count = order.Count,
-                        Sum = order.Sum,
-                        Status = order.Status,
-                        DateCreate = order.DateCreate,
-                        DateImplement = order.DateImplement
-                    } :
+                    CreateModel(order) :
                     null;
             }
         }
