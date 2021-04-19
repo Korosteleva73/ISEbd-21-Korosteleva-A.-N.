@@ -97,7 +97,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
+                DateImplement = DateTime.Now,
                 Status = OrderStatus.Готов
             });
         }
@@ -123,7 +123,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
+                DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
         }
