@@ -1,10 +1,11 @@
 ﻿using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.Interfaces;
 using CarFactoryBusinessLogic.ViewModels;
+using CarFactoryBusinessLogic.Enums;
 using CarFactoryListImplement.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+
 namespace CarFactoryListImplement.Implements
 {
     public class OrderStorage : IOrderStorage
@@ -35,7 +36,11 @@ namespace CarFactoryListImplement.Implements
             {
                 if (order.CarId == model.CarId)
                 {
-                    if (order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                    if ((!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate.Date == model.DateCreate.Date) ||
+                         (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date && order.DateCreate.Date <= model.DateTo.Value.Date) ||
+                         (model.ClientId.HasValue && order.ClientId == model.ClientId) ||
+                         (model.FreeOrders.HasValue && model.FreeOrders.Value && order.Status == OrderStatus.Принят) ||
+                         (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && order.Status == OrderStatus.Выполняется))
                     {
                         result.Add(CreateModel(order));
                     }
@@ -106,6 +111,8 @@ namespace CarFactoryListImplement.Implements
         {
             order.CarId = model.CarId;
             order.Count = model.Count;
+            order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Sum = model.Sum;
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
@@ -114,15 +121,43 @@ namespace CarFactoryListImplement.Implements
         }
         private OrderViewModel CreateModel(Order order)
         {
+            string carName = "";
+            for (int i = 0; i < source.Cars.Count; ++i)
+            {
+                if (source.Cars[i].Id == order.CarId)
+                {
+                    carName = source.Cars[i].CarName;
+                }
+            }
+            string clientFIO = "";
+            for (int i = 0; i < source.Clients.Count; ++i)
+            {
+                if (source.Clients[i].Id == order.ClientId)
+                {
+                    clientFIO = source.Clients[i].ClientFIO;
+                }
+            }
+            string implementerFIO = "";
+            for (int i = 0; i < source.Implementers.Count; ++i)
+                if (source.Implementers[i].Id == order.ImplementerId)
+                {
+                    clientFIO = source.Implementers[i].FIO;
+                }
+
             return new OrderViewModel
             {
                 Id = order.Id,
                 CarId = order.CarId,
+                CarName = carName,
+                ClientId = order.ClientId,
+                ClientFIO = clientFIO,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = implementerFIO,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
                 DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement
+                DateImplement = order.DateImplement,
             };
         }
     }

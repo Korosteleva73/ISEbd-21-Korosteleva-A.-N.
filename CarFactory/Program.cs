@@ -40,6 +40,10 @@ namespace CarFactoryView
 HierarchicalLifetimeManager());
             currentContainer.RegisterType<ClientLogic>(new
            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IImplementerStorage, ImplementerStorage>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ImplementerLogic>(new
+           HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

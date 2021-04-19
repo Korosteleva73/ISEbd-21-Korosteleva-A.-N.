@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarFactoryDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarFactoryDatabase))]
-    [Migration("20210405200259_InitialCreate")]
+    [Migration("20210419120214_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +105,28 @@ namespace CarFactoryDatabaseImplement.Migrations
                     b.ToTable("Details");
                 });
 
+            modelBuilder.Entity("CarFactoryDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PauseTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
             modelBuilder.Entity("CarFactoryDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -115,7 +137,7 @@ namespace CarFactoryDatabaseImplement.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<int>("Count")
@@ -126,6 +148,9 @@ namespace CarFactoryDatabaseImplement.Migrations
 
                     b.Property<DateTime?>("DateImplement")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("ImplementerId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -138,6 +163,8 @@ namespace CarFactoryDatabaseImplement.Migrations
                     b.HasIndex("CarId");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.ToTable("Orders");
                 });
@@ -167,9 +194,11 @@ namespace CarFactoryDatabaseImplement.Migrations
 
                     b.HasOne("CarFactoryDatabaseImplement.Models.Client", "Client")
                         .WithMany("Orders")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("CarFactoryDatabaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Orders")
+                        .HasForeignKey("ImplementerId");
                 });
 #pragma warning restore 612, 618
         }

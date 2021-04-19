@@ -13,6 +13,8 @@ namespace CarFactoryBusinessLogic.ViewModels
         [DataMember]
         public int ClientId { get; set; }
         [DataMember]
+        public int? ImplementerId { get; set; }
+        [DataMember]
         public int CarId { get; set; }
         [DataMember]
         [DisplayName("Клиент")]
@@ -35,5 +37,8 @@ namespace CarFactoryBusinessLogic.ViewModels
         [DataMember]
         [DisplayName("Дата выполнения")]
         public DateTime? DateImplement { get; set; }
+        [DataMember]
+        [DisplayName("Исполнитель")]
+        public string ImplementerFIO { get; set; }
     }
 }
