@@ -17,7 +17,6 @@ namespace CarFactoryBusinessLogic.Interfaces
         void Update(WarehouseBindingModel model);
 
         void Delete(WarehouseBindingModel model);
-
-        bool TakeDetails(Dictionary<int, (string, int)> details, int necessaryDetailsCount);
+        void CheckDetails(CarViewModel model, int detailCountInOrder);
     }
 }

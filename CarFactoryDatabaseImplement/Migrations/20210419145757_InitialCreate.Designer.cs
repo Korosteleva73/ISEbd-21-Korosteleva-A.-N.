@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarFactoryDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarFactoryDatabase))]
-    [Migration("20210330081204_InitialCreate")]
+    [Migration("20210419145757_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,54 @@ namespace CarFactoryDatabaseImplement.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("CarFactoryDatabaseImplement.Models.Warehouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("WarehouseBoss")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WarehouseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouses");
+                });
+
+            modelBuilder.Entity("CarFactoryDatabaseImplement.Models.WarehouseDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DetailId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("WarehouseDetails");
+                });
+
             modelBuilder.Entity("CarFactoryDatabaseImplement.Models.CarDetail", b =>
                 {
                     b.HasOne("CarFactoryDatabaseImplement.Models.Car", "Car")
@@ -133,6 +181,21 @@ namespace CarFactoryDatabaseImplement.Migrations
                     b.HasOne("CarFactoryDatabaseImplement.Models.Car", "Car")
                         .WithMany("Orders")
                         .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CarFactoryDatabaseImplement.Models.WarehouseDetail", b =>
+                {
+                    b.HasOne("CarFactoryDatabaseImplement.Models.Detail", "Detail")
+                        .WithMany("WarehouseDetails")
+                        .HasForeignKey("DetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarFactoryDatabaseImplement.Models.Warehouse", "Warehouse")
+                        .WithMany("WarehouseDetails")
+                        .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
