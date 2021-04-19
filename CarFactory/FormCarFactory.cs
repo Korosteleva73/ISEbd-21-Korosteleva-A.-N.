@@ -10,7 +10,7 @@ namespace CarFactoryView
         [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly OrderLogic _orderLogic;
-        public FormCarFactory(OrderLogic orderLogic)
+        public FormCarFactory(OrderLogic orderLogic, CarLogic carLogic)
         {
             InitializeComponent();
             this._orderLogic = orderLogic;
@@ -114,6 +114,18 @@ namespace CarFactoryView
         private void ButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void ПополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouseReplenishment>();
+            form.ShowDialog();
+        }
+
+        private void СкладыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouses>();
+            form.ShowDialog();
         }
     }
 }
