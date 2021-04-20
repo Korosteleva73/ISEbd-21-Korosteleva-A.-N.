@@ -30,6 +30,14 @@ namespace CarFactoryBusinessLogic.BusinessLogics
 
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
+            var element = _implementerStorage.GetElement(new ImplementerBindingModel
+            {
+                FIO = model.FIO
+            });
+            if (element != null && element.Id != model.Id)
+            {
+                throw new Exception("Уже есть исполнитель с таким именем");
+            }
             if (model.Id.HasValue)
             {
                 _implementerStorage.Update(model);
