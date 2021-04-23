@@ -45,7 +45,7 @@ namespace CarFactoryListImplement.Implements
                         result.Add(CreateModel(order));
                     }
                 }
-            }
+            
             return result;
         }
         public OrderViewModel GetElement(OrderBindingModel model)
