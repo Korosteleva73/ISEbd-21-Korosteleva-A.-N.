@@ -1,5 +1,5 @@
-﻿using System;
-using CarFactoryBusinessLogic.Enums;
+﻿using CarFactoryBusinessLogic.Enums;
+using System;
 
 namespace CarFactoryFileImplement.Models
 {
@@ -7,6 +7,7 @@ namespace CarFactoryFileImplement.Models
     {
         public int Id { get; set; }
         public int CarId { get; set; }
+        public int ClientId { get; set; }
         public int Count { get; set; }
         public decimal Sum { get; set; }
         public OrderStatus Status { get; set; }

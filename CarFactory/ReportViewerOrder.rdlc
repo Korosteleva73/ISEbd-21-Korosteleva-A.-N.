@@ -49,7 +49,7 @@
     <ReportSection>
       <Body>
         <ReportItems>
-          <Tablix Name="Tablix">
+          <Tablix Name="TablixReports">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
@@ -103,7 +103,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextboxCarName">
+                        <Textbox Name="TextboxCar">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -161,14 +161,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextboxSum">
+                        <Textbox Name="TextboxSumma">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Сумма</Value>
+                                  <Value>Стоимость</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -417,14 +417,16 @@
                     <Style />
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>ReportParameterPeriod</rd:DefaultName>
-            <Top>2.28431cm</Top>
-            <Left>7.14586cm</Left>
+            <Top>2.04442cm</Top>
+            <Left>6.84953cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.44496cm</Width>
+            <Width>4.1698cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -436,7 +438,7 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="TextboxHeader">
+          <Textbox Name="TextboxReport">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -446,16 +448,19 @@
                     <Value>Заказы</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <Top>0.87348cm</Top>
-            <Left>8.30766cm</Left>
+            <Left>7.54803cm</Left>
             <Height>0.83961cm</Height>
-            <Width>2.09783cm</Width>
+            <Width>2.5cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -478,9 +483,7 @@
                     <Style />
                   </TextRun>
                 </TextRuns>
-                <Style>
-                  <TextAlign>Right</TextAlign>
-                </Style>
+                <Style />
               </Paragraph>
             </Paragraphs>
             <Top>4.75403cm</Top>
@@ -498,7 +501,7 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="TextboxTotalFormula">
+          <Textbox Name="TextboxSum">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>

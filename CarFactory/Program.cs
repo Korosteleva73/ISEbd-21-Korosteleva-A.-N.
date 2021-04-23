@@ -29,6 +29,8 @@ namespace CarFactoryView
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<ICarStorage, CarStorage>(new
            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IClientStorage, ClientStorage>(new
+           HierarchicalLifetimeManager());
             currentContainer.RegisterType<DetailLogic>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<OrderLogic>(new HierarchicalLifetimeManager());
@@ -36,6 +38,8 @@ namespace CarFactoryView
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<ReportLogic>(new
 HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ClientLogic>(new
+           HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

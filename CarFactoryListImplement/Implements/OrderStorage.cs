@@ -33,14 +33,14 @@ namespace CarFactoryListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (order.CarId == model.CarId)
-                {
-                    if (order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
-                    {
+                if ((!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate.Date == model.DateCreate.Date) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date && order.DateCreate.Date <= model.DateTo.Value.Date) ||
+                (model.ClientId.HasValue && order.ClientId == model.ClientId))
+                    {        
                         result.Add(CreateModel(order));
                     }
                 }
-            }
+            
             return result;
         }
         public OrderViewModel GetElement(OrderBindingModel model)
@@ -106,6 +106,7 @@ namespace CarFactoryListImplement.Implements
         {
             order.CarId = model.CarId;
             order.Count = model.Count;
+            order.ClientId = model.ClientId.Value;
             order.Sum = model.Sum;
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
@@ -114,10 +115,29 @@ namespace CarFactoryListImplement.Implements
         }
         private OrderViewModel CreateModel(Order order)
         {
+            string carName = "";
+            for (int i = 0; i < source.Cars.Count; ++i)
+            {
+                if (source.Cars[i].Id == order.CarId)
+                {
+                    carName = source.Cars[i].CarName;
+                }
+            }
+            string clientFIO = "";
+            for (int i = 0; i < source.Clients.Count; ++i)
+            {
+                if (source.Clients[i].Id == order.ClientId)
+                {
+                    clientFIO = source.Clients[i].ClientFIO;
+                }
+            }
             return new OrderViewModel
             {
                 Id = order.Id,
                 CarId = order.CarId,
+                ClientId = order.ClientId,
+                CarName = carName,
+                ClientFIO = clientFIO,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
