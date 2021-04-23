@@ -102,7 +102,8 @@ namespace CarFactoryView
                     Id = id,
                     WarehouseName = textBoxName.Text,
                     WarehouseBoss = textBoxBoss.Text,
-                    WarehouseDetails = warehouseDetails
+                    WarehouseDetails = warehouseDetails,
+                    DateCreate = DateTime.Now
                 });
 
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);

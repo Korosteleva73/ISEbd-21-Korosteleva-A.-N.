@@ -185,5 +185,10 @@ namespace CarFactoryListImplement.Implements
         {
             throw new NotImplementedException();
         }
+
+        public void CheckDetails(CarViewModel model, int detailCountInOrder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -56,10 +56,12 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-            if (!_warehouseStorage.TakeDetails(_carStorage.GetElement(new CarBindingModel { Id = order.CarId }).CarDetails, order.Count))
+         var car = _carStorage.GetElement(new CarBindingModel
             {
-                throw new Exception("Недостаточно деталей для создания машин");
-            }
+                Id = order.CarId
+            });
+
+            _warehouseStorage.CheckDetails(car, order.Count);
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,

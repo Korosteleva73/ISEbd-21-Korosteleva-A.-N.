@@ -179,5 +179,10 @@ namespace CarFactoryFileImplement.Implements
             }
             return true;
         }
+
+        public void CheckDetails(CarViewModel model, int detailCountInOrder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
