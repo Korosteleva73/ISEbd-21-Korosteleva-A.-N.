@@ -1,10 +1,15 @@
 ﻿using CarFactoryBusinessLogic.BusinessLogics;
 using CarFactoryBusinessLogic.Interfaces;
+using CarFactoryBusinessLogic.HelperModels;
 using CarFactoryDatabaseImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
+using System.Configuration;
+using System.Threading;
+using Microsoft.IdentityModel.Protocols;
+
 namespace CarFactoryView
 {
     static class Program
@@ -16,6 +21,21 @@ namespace CarFactoryView
         static void Main()
         {
             var container = BuildUnityContainer();
+            MailLogic.MailConfig(new MailConfig
+            {
+                SmtpClientHost = ConfigurationManager.AppSettings["SmtpClientHost"],
+                SmtpClientPort = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpClientPort"]),
+                MailLogin = ConfigurationManager.AppSettings["MailLogin"],
+                MailPassword = ConfigurationManager.AppSettings["MailPassword"],
+            });
+            // создаем таймер
+            var timer = new System.Threading.Timer(new TimerCallback(MailCheck), new MailCheckInfo
+            {
+                PopHost = ConfigurationManager.AppSettings["PopHost"],
+                PopPort = Convert.ToInt32(ConfigurationManager.AppSettings["PopPort"]),
+                Storage = container.Resolve<IMessageInfoStorage>(),
+                ClientStorage = container.Resolve<IClientStorage>()
+            }, 0, 100000);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(container.Resolve<FormCarFactory>());
@@ -31,20 +51,29 @@ namespace CarFactoryView
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClientStorage, ClientStorage>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<DetailLogic>(new
-           HierarchicalLifetimeManager());
-            currentContainer.RegisterType<OrderLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<CarLogic>(new
-           HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ReportLogic>(new
-HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ClientLogic>(new
+            currentContainer.RegisterType<IMessageInfoStorage, MessageInfoStorage>(new 
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IImplementerStorage, ImplementerStorage>(new
            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<OrderLogic>(new HierarchicalLifetimeManager());
+
+            currentContainer.RegisterType<DetailLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<CarLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ReportLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ClientLogic>(new
+           HierarchicalLifetimeManager());
             currentContainer.RegisterType<ImplementerLogic>(new
            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<MailLogic>(new
+           HierarchicalLifetimeManager());
             return currentContainer;
+        }
+        private static void MailCheck(object obj)
+        {
+            MailLogic.MailCheck((MailCheckInfo)obj);
         }
     }
 }
