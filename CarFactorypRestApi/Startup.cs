@@ -41,12 +41,6 @@ namespace CarFactorypRestApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMessageInfoStorage messageInfoStorage)
         {
-            var timer = new Timer(new TimerCallback(MailCheck), new MailCheckInfo
-            {
-                PopHost = "pop.gmail.com",
-                PopPort = 995,
-                Storage = messageInfoStorage
-            }, 0, 100000);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -59,9 +53,5 @@ namespace CarFactorypRestApi
                 endpoints.MapControllers();
             });
         }
-        private static void MailCheck(object obj)
-        {
-            MailLogic.MailCheck((MailCheckInfo)obj);
-        }   
     }
 }

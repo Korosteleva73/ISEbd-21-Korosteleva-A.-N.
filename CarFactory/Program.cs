@@ -35,7 +35,7 @@ namespace CarFactoryView
                 PopPort = Convert.ToInt32(ConfigurationManager.AppSettings["PopPort"]),
                 Storage = container.Resolve<IMessageInfoStorage>(),
                 ClientStorage = container.Resolve<IClientStorage>()
-            }, 0, 100000);
+            }, 0, 10000);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(container.Resolve<FormCarFactory>());
