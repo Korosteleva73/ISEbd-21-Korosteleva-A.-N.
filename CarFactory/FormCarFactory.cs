@@ -1,6 +1,5 @@
 ﻿using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.BusinessLogics;
-using CarFactoryBusinessLogic.ViewModels;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -29,6 +28,17 @@ namespace CarFactoryView
                 var ordersList = _orderLogic.Read(null);
                 if (ordersList != null)
                 {
+                    var carsList = _carLogic.Read(null);
+                    foreach (OrderViewModel order in ordersList)
+                    {
+                        foreach (CarViewModel car in carsList)
+                        {
+                            if (car.Id == order.CarId)
+                            {
+                                order.CarName = car.CarName;
+                            }
+                        }
+                    }
                     dataGridViewCarFactory.DataSource = ordersList;
                     dataGridViewCarFactory.Columns[0].Visible = false;
                     dataGridViewCarFactory.Columns[1].Visible = false;
@@ -146,6 +156,18 @@ namespace CarFactoryView
         private void СписокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportAboutOrders>();
+            form.ShowDialog();
+        }
+
+        private void ПополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouseReplenishment>();
+            form.ShowDialog();
+        }
+
+        private void СкладыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouses>();
             form.ShowDialog();
         }
     }

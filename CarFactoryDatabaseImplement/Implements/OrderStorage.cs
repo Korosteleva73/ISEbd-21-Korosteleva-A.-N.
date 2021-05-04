@@ -16,7 +16,7 @@ namespace CarFactoryDatabaseImplement.Implements
             using (var context = new CarFactoryDatabase())
             {
                 return context.Orders
-                    .Include(rec =>rec.Car)
+                    .Include(rec => rec.Car)
                     .Select(rec => new OrderViewModel
                     {
                         Id = rec.Id,

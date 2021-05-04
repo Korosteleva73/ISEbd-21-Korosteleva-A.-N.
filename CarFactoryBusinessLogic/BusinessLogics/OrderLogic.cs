@@ -9,9 +9,14 @@ namespace CarFactoryBusinessLogic.BusinessLogics
     public class OrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly ICarStorage _carStorage;
+        private readonly IWarehouseStorage _warehouseStorage;
+
+        public OrderLogic(IOrderStorage orderStorage, ICarStorage carStorage, IWarehouseStorage warehouseStorage)
         {
             _orderStorage = orderStorage;
+            _carStorage = carStorage;
+            _warehouseStorage = warehouseStorage;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -51,6 +56,12 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
+         var car = _carStorage.GetElement(new CarBindingModel
+            {
+                Id = order.CarId
+            });
+
+            _warehouseStorage.CheckDetails(car, order.Count);
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
