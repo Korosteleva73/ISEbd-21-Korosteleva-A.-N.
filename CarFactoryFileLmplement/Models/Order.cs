@@ -1,6 +1,4 @@
 ﻿using CarFactoryBusinessLogic.Enums;
-using System;
-
 namespace CarFactoryFileImplement.Models
 {
     public class Order

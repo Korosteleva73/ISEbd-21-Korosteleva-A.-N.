@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactoryBusinessLogic", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactoryListImplement", "..\CarFactoryListImplement\CarFactoryListImplement.csproj", "{64BDE202-00F4-4C00-A9A8-28867ED9B7C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactoryFileImplement", "..\CarFactoryFileImplement\CarFactoryFileImplement.csproj", "{A556DC99-4A20-471D-BC1E-733B29B61015}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactoryDatabaseImplement", "..\CarFactoryDatabaseImplement\CarFactoryDatabaseImplement.csproj", "{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarFactoryFileLmplement", "..\CarFactoryFileLmplement\CarFactoryFileLmplement.csproj", "{53F0B7FC-2D11-4329-8242-D5752C111F39}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactorypRestApi", "..\CarFactorypRestApi\CarFactorypRestApi.csproj", "{7ADD30B7-A083-4E10-B9A2-4ED44DAE5545}"
 EndProject
@@ -35,10 +35,6 @@ Global
 		{64BDE202-00F4-4C00-A9A8-28867ED9B7C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64BDE202-00F4-4C00-A9A8-28867ED9B7C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64BDE202-00F4-4C00-A9A8-28867ED9B7C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A556DC99-4A20-471D-BC1E-733B29B61015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A556DC99-4A20-471D-BC1E-733B29B61015}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A556DC99-4A20-471D-BC1E-733B29B61015}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A556DC99-4A20-471D-BC1E-733B29B61015}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EC815E4-5862-4EA7-8F36-5A58F10AFA10}.Release|Any CPU.ActiveCfg = Release|Any CPU

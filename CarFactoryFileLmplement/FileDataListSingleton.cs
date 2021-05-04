@@ -16,16 +16,20 @@ namespace CarFactoryFileImplement
         private readonly string CarFileName = "Car.xml";
         private readonly string ClientFileName = "Client.xml";
 
+        private readonly string WarehouseFileName = "Warehouse.xml";
         public List<Detail> Details { get; set; }
         public List<Order> Orders { get; set; }
         public List<Car> Cars { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Warehouse> Warehouses { get; set; }
+
         private FileDataListSingleton()
         {
             Details = LoadDetails();
             Orders = LoadOrders();
             Cars = LoadCars();
             Clients = LoadClients();
+            Warehouses = LoadWarehouses();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -40,6 +44,7 @@ namespace CarFactoryFileImplement
             SaveDetails();
             SaveOrders();
             SaveCars();
+            SaveWarehouses();
             SaveClients();
         }
         private List<Detail> LoadDetails()
@@ -60,7 +65,6 @@ namespace CarFactoryFileImplement
             }
             return list;
         }
-
         private List<Order> LoadOrders()
         {
             var list = new List<Order>();
@@ -113,6 +117,38 @@ namespace CarFactoryFileImplement
                     });
                 }
             }
+            return list;
+        }
+        private List<Warehouse> LoadWarehouses()
+        {
+            var list = new List<Warehouse>();
+
+            if (File.Exists(WarehouseFileName))
+            {
+                XDocument xDocument = XDocument.Load(WarehouseFileName);
+
+                var xElements = xDocument.Root.Elements("Warehouse").ToList();
+
+                foreach (var warehouse in xElements)
+                {
+                    var warehouseDetails = new Dictionary<int, int>();
+
+                    foreach (var detail in warehouse.Element("WarehouseMaterials").Elements("WarehouseMaterial").ToList())
+                    {
+                        warehouseDetails.Add(Convert.ToInt32(detail.Element("Key").Value), Convert.ToInt32(detail.Element("Value").Value));
+                    }
+
+                    list.Add(new Warehouse
+                    {
+                        Id = Convert.ToInt32(warehouse.Attribute("Id").Value),
+                        WarehouseName = warehouse.Element("WarehouseName").Value,
+                        WarehouseBoss = warehouse.Element("WarehouseBoss").Value,
+                        DateCreate = Convert.ToDateTime(warehouse.Element("DateCreate").Value),
+                        WarehouseDetails = warehouseDetails
+                    });
+                }
+            }
+
             return list;
         }
 
@@ -193,6 +229,35 @@ namespace CarFactoryFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(CarFileName);
+            }
+        }
+        private void SaveWarehouses()
+        {
+            if (Warehouses != null)
+            {
+                var xElement = new XElement("Warehouses");
+
+                foreach (var warehouse in Warehouses)
+                {
+                    var warehouseMaterials = new XElement("WarehouseMaterials");
+
+                    foreach (var detail in warehouse.WarehouseDetails)
+                    {
+                        warehouseMaterials.Add(new XElement("WarehouseMaterial",
+                            new XElement("Key", detail.Key),
+                            new XElement("Value", detail.Value)));
+                    }
+
+                    xElement.Add(new XElement("Warehouse",
+                        new XAttribute("Id", warehouse.Id),
+                        new XElement("WarehouseName", warehouse.WarehouseName),
+                        new XElement("WarehouseBoss", warehouse.WarehouseBoss),
+                        new XElement("DateCreate", warehouse.DateCreate.ToString()),
+                        warehouseMaterials));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(WarehouseFileName);
             }
         }
         private void SaveClients()

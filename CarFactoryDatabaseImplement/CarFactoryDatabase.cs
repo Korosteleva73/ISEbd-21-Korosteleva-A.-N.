@@ -12,6 +12,9 @@ namespace CarFactoryDatabaseImplement
             }
             base.OnConfiguring(optionsBuilder);
         }
+
+        public virtual DbSet<WarehouseDetail> WarehouseDetails { set; get; }
+        public virtual DbSet<Warehouse> Warehouses { set; get; }
         public virtual DbSet<Detail> Details { set; get; }
         public virtual DbSet<Car> Cars { set; get; }
         public virtual DbSet<CarDetail> CarDetails { set; get; }
