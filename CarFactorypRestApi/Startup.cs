@@ -35,7 +35,7 @@ namespace CarFactorypRestApi
                 SmtpClientHost = "smtp.gmail.com",
                 SmtpClientPort = 587,
                 MailLogin = "korostelevaa729@gmail.com",
-                MailPassword = "yanshov2001"
+                MailPassword = "korosteleva2001"
             });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
