@@ -201,7 +201,7 @@ namespace CarFactoryFileImplement
                      new XElement("Sum", order.Sum),
                      new XElement("Status", (int)order.Status),
                      new XElement("DateCreate", order.DateCreate),
-                     new XElement("DateImplement", order.DateImplement)));
+                     new XElement("DateImplement", order.DateImplement.Value)));
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(OrderFileName);

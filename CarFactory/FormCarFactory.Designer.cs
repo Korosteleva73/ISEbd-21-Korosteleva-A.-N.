@@ -120,7 +120,7 @@
             this.toolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ДеталиtoolStripMenuItem,
             this.МашиныToolStripMenuItem,
-            this.складыToolStripMenuItem
+            this.складыToolStripMenuItem,
             this.клиентыToolStripMenuItem});
             this.toolStripMenuItem.Name = "toolStripMenuItem";
             this.toolStripMenuItem.Size = new System.Drawing.Size(117, 24);
@@ -226,7 +226,6 @@
             this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
             this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.клиентыToolStripMenuItem.Text = "Клиенты";
-            this.клиентыToolStripMenuItem.Click += new System.EventHandler(this.клиентыToolStripMenuItem_Click);
             // 
             // FormCarFactory
             // 

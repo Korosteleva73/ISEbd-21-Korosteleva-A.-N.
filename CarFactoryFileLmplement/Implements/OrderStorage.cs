@@ -90,21 +90,12 @@ namespace CarFactoryFileImplement.Implements
         }
         private OrderViewModel CreateModel(Order order)
         {
-            string carName = null;
-            foreach (var car in source.Cars)
-            {
-                if(order.CarId == car.Id)
-                {
-                    carName = car.CarName;
-                }
-            }
             return new OrderViewModel
             {
 
                 Id = order.Id,
                 CarId = order.CarId,
                 ClientId = order.ClientId,
-                CarName = carName,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
