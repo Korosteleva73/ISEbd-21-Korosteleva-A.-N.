@@ -1,6 +1,7 @@
 ﻿using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.Interfaces;
 using CarFactoryBusinessLogic.ViewModels;
+using CarFactoryBusinessLogic.Enums;
 using CarFactoryDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,6 +18,7 @@ namespace CarFactoryDatabaseImplement.Implements
             {
                 return context.Orders.Include(rec => rec.Car)
                     .Include(rec => rec.Client)
+                     .Include(rec => rec.Implementer)
                     .Select(CreateModel).ToList();
             }
         }
@@ -31,11 +33,17 @@ namespace CarFactoryDatabaseImplement.Implements
                 return context.Orders
                     .Include(rec => rec.Car)
                     .Include(rec => rec.Client)
-                    .Where(rec => (!model.DateFrom.HasValue &&
-                    !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
-                    (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >=
-                    model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
-                    (model.ClientId.HasValue && rec.ClientId == model.ClientId))
+                      .Include(rec => rec.Implementer)
+                    .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue &&
+                    rec.DateCreate.Date == model.DateCreate.Date) ||
+                     (model.DateFrom.HasValue && model.DateTo.HasValue &&
+                    rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <=
+                    model.DateTo.Value.Date) ||
+                     (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
+                    (model.FreeOrders.HasValue && model.FreeOrders.Value && rec.Status ==
+                    OrderStatus.Принят) ||
+                     (model.ImplementerId.HasValue && rec.ImplementerId ==
+                    model.ImplementerId && rec.Status == OrderStatus.Выполняется))
                     .Select(CreateModel).ToList();
             }
         }
@@ -52,6 +60,7 @@ namespace CarFactoryDatabaseImplement.Implements
                 var order = context.Orders
                     .Include(rec => rec.Car)
                     .Include(rec => rec.Client)
+                     .Include(rec => rec.Implementer)
                     .FirstOrDefault(rec => rec.Id == model.Id);
 
                 return order != null ?
@@ -103,21 +112,25 @@ namespace CarFactoryDatabaseImplement.Implements
             {
                 Id = order.Id,
                 CarId = order.CarId,
-                ClientId = order.ClientId,
+                ClientId = order.ClientId.Value,
+                ImplementerId = order.ImplementerId,
                 ClientFIO = order.Client.ClientFIO,
                 CarName = order.Car.CarName,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
                 DateCreate = order.DateCreate,
-                DateImplement = order?.DateImplement
+                DateImplement = order?.DateImplement,
+                ImplementerFIO = order.ImplementerId.HasValue ?
+                    order.Implementer.FIO : string.Empty
             };
         }
 
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.CarId = model.CarId;
-            order.ClientId = Convert.ToInt32(model.ClientId);
+            order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Status = model.Status;
             order.Sum = model.Sum;

@@ -11,11 +11,13 @@ namespace CarFactoryFileImplement
     public class FileDataListSingleton
     {
         private static FileDataListSingleton instance;
+        private readonly string ImplementerFileName = "Implementer.xml";
         private readonly string DetailFileName = "Detail.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string CarFileName = "Car.xml";
         private readonly string ClientFileName = "Client.xml";
 
+        public List<Implementer> Implementers { get; set; }
         public List<Detail> Details { get; set; }
         public List<Order> Orders { get; set; }
         public List<Car> Cars { get; set; }
@@ -26,6 +28,7 @@ namespace CarFactoryFileImplement
             Orders = LoadOrders();
             Cars = LoadCars();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -41,6 +44,7 @@ namespace CarFactoryFileImplement
             SaveOrders();
             SaveCars();
             SaveClients();
+            SaveImplementers();
         }
         private List<Detail> LoadDetails()
         {
@@ -82,6 +86,10 @@ namespace CarFactoryFileImplement
                     if (!string.IsNullOrEmpty(elem.Element("DateImplement").Value))
                     {
                         order.DateImplement = Convert.ToDateTime(elem.Element("DateImplement").Value);
+                    }
+                    if (!string.IsNullOrEmpty(elem.Element("ImplementerId").Value))
+                    {
+                        order.ImplementerId = Convert.ToInt32(elem.Element("ImplementerId").Value);
                     }
                     list.Add(order);
                 }
@@ -136,6 +144,26 @@ namespace CarFactoryFileImplement
             }
             return list;
         }
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                XDocument xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Implementers").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        FIO = elem.Element("FIO").Value,
+                        WorkingTime = Convert.ToInt32(elem.Element("WorkingTime").Value),
+                        PauseTime = Convert.ToInt32(elem.Element("PauseTime").Value)
+                    });
+                }
+            }
+            return list;
+        }
         private void SaveDetails()
         {
             if (Details != null)
@@ -161,6 +189,7 @@ namespace CarFactoryFileImplement
                     xElement.Add(new XElement("Order",
                      new XAttribute("Id", order.Id),
                      new XElement("CarId", order.CarId),
+                     new XElement("ImplementerId", order.ImplementerId),
                      new XElement("Count", order.Count),
                      new XElement("Sum", order.Sum),
                      new XElement("Status", (int)order.Status),
@@ -210,6 +239,23 @@ namespace CarFactoryFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(ClientFileName);
+            }
+        }
+        private void SaveImplementers()
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(new XElement("Implementer",
+                    new XAttribute("Id", implementer.Id),
+                    new XElement("FIO", implementer.FIO),
+                    new XElement("WorkingTime", implementer.WorkingTime),
+                    new XElement("PauseTime", implementer.PauseTime)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementerFileName);
             }
         }
     }
