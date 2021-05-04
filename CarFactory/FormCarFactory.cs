@@ -3,6 +3,8 @@ using CarFactoryBusinessLogic.BusinessLogics;
 using System;
 using System.Windows.Forms;
 using Unity;
+using CarFactory;
+
 namespace CarFactoryView
 {
     public partial class FormCarFactory : Form
@@ -28,17 +30,6 @@ namespace CarFactoryView
                 var ordersList = _orderLogic.Read(null);
                 if (ordersList != null)
                 {
-                    var carsList = _carLogic.Read(null);
-                    foreach (OrderViewModel order in ordersList)
-                    {
-                        foreach (CarViewModel car in carsList)
-                        {
-                            if (car.Id == order.CarId)
-                            {
-                                order.CarName = car.CarName;
-                            }
-                        }
-                    }
                     dataGridViewCarFactory.DataSource = ordersList;
                     dataGridViewCarFactory.Columns[0].Visible = false;
                     dataGridViewCarFactory.Columns[1].Visible = false;
@@ -170,5 +161,34 @@ namespace CarFactoryView
             var form = Container.Resolve<FormWarehouses>();
             form.ShowDialog();
         }
+
+        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+
+                    MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void содержимоеСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportWarehouseDetails>();
+            form.ShowDialog();
+        }
+
+        private void заказыПоДатамToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportOrdersByDate>();
+            form.ShowDialog();
+        }
+
     }
 }

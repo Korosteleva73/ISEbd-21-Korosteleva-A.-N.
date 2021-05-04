@@ -111,7 +111,7 @@
             this.Controls.Add(this.dateTimePickerFrom);
             this.Controls.Add(this.labelFrom);
             this.Name = "FormReportAboutOrders";
-            this.Text = "Form1";
+            this.Text = "Заказы за период";
             this.Load += new System.EventHandler(this.FormReportOrders_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

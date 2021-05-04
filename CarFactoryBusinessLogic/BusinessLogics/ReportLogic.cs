@@ -10,20 +10,20 @@ namespace CarFactoryBusinessLogic.BusinessLogics
 {
     public class ReportLogic
     {
-        private readonly IDetailStorage _detailStorage;
+        private readonly IWarehouseStorage _warehouseStorage;
         private readonly ICarStorage _carStorage;
         private readonly IOrderStorage _orderStorage;
-        public ReportLogic(ICarStorage carStorage, IDetailStorage
-       detailStorage, IOrderStorage orderStorage)
+
+        public ReportLogic(ICarStorage carStorage, IWarehouseStorage
+      warehouseStorage, IOrderStorage orderStorage)
         {
             _carStorage = carStorage;
-            _detailStorage = detailStorage;
+            _warehouseStorage = warehouseStorage;
             _orderStorage = orderStorage;
         }
-        /// Получение списка деталей с указанием, в каких изделиях используются
-        public List<ReportCarDetailViewModel> GetCarDetail()
+
+        public List<ReportCarDetailViewModel> GetCarDetails()
         {
-            var details = _detailStorage.GetFullList();
             var cars = _carStorage.GetFullList();
             var list = new List<ReportCarDetailViewModel>();
             foreach (var car in cars)
@@ -34,25 +34,21 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                     Details = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
-                foreach (var detail in details)
+                foreach (var detail in car.CarDetails)
                 {
-                    if (car.CarDetails.ContainsKey(detail.Id))
-                    {
-                        record.Details.Add(new Tuple<string, int>(detail.DetailName, car.CarDetails[detail.Id].Item2));
-                        record.TotalCount += car.CarDetails[detail.Id].Item2;
-                    }
+                    record.Details.Add(new Tuple<string, int>(detail.Value.Item1, detail.Value.Item2));
+                    record.TotalCount += detail.Value.Item2;
                 }
                 list.Add(record);
             }
             return list;
         }
-        /// Получение списка заказов за определенный период
+
         public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
         {
             return _orderStorage.GetFilteredList(new OrderBindingModel
             {
-                DateFrom =
-           model.DateFrom,
+                DateFrom = model.DateFrom,
                 DateTo = model.DateTo
             })
             .Select(x => new ReportOrdersViewModel
@@ -63,8 +59,9 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                 Sum = x.Sum,
                 Status = x.Status
             })
-.ToList();
+           .ToList();
         }
+
         /// Сохранение детали в файл-Word
         public void SaveCarsToWordFile(ReportBindingModel model)
         {
@@ -82,7 +79,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             {
                 FileName = model.FileName,
                 Title = "Список деталей",
-                CarDetails = GetCarDetail()
+                CarDetails = GetCarDetails()
             });
         }
         /// Сохранение заказов в файл-Pdf
@@ -95,6 +92,75 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                 DateFrom = model.DateFrom.Value,
                 DateTo = model.DateTo.Value,
                 Orders = GetOrders(model)
+            });
+        }
+
+        public List<ReportWarehouseDetailsViewModel> GetWarehouseDetails()
+        {
+            var warehouses = _warehouseStorage.GetFullList();
+            var list = new List<ReportWarehouseDetailsViewModel>();
+            foreach (var warehouse in warehouses)
+            {
+                var record = new ReportWarehouseDetailsViewModel
+                {
+                    WarehouseName = warehouse.WarehouseName,
+                    Details = new List<Tuple<string, int>>(),
+                    TotalCount = 0
+                };
+                foreach (var detail in warehouse.WarehouseDetails)
+                {
+                    record.Details.Add(new Tuple<string, int>(detail.Value.Item1, detail.Value.Item2));
+                    record.TotalCount += detail.Value.Item2;
+                }
+                list.Add(record);
+            }
+            return list;
+        }
+
+        public List<OrderReportByDateViewModel> GetOrderReportByDate(ReportBindingModel model)
+        {
+            return _orderStorage.GetFilteredList(new OrderBindingModel
+            {
+                DateFrom = model.DateFrom,
+                DateTo = model.DateTo
+            })
+                .GroupBy(order => order.DateCreate.ToShortDateString())
+                .Select(rec => new OrderReportByDateViewModel
+                {
+                    Date = Convert.ToDateTime(rec.Key),
+                    Count = rec.Count(),
+                    Sum = rec.Sum(order => order.Sum)
+                })
+                .ToList();
+        }
+
+        public void SaveWarehouseesToWordFile(ReportBindingModel model)
+        {
+            SaveToWord.CreateWarehouseDoc(new WarehouseWordInfo
+            {
+                FileName = model.FileName,
+                Title = "Список складов",
+                Warehouses = _warehouseStorage.GetFullList()
+            });
+        }
+
+        public void SaveWarehouseDetailsToExcelFile(ReportBindingModel model)
+        {
+            SaveToExcel.CreateWarehouseDoc(new WarehouseExcelInfo
+            {
+                FileName = model.FileName,
+                Title = "Список загруженности складов",
+                WarehouseDetails = GetWarehouseDetails()
+            });
+        }
+
+        public void SaveOrderReportByDateToPdfFile(ReportBindingModel model)
+        {
+            SaveToPdf.CreateDocOrderReportByDate(new PdfInfoOrderReportByDate
+            {
+                FileName = model.FileName,
+                Title = "Список заказов",
+                Orders = GetOrderReportByDate(model)
             });
         }
     }
