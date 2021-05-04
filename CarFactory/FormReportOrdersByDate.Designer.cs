@@ -120,7 +120,6 @@ namespace CarFactoryView
             this.Controls.Add(this.labelFrom);
             this.Name = "FormReportOrdersByDate";
             this.Text = "Сгруппированные заказы";
-            this.Load += new System.EventHandler(this.FormReportOrdersByDate_Load);
             ((System.ComponentModel.ISupportInitialize)(this.OrderReportByDateViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

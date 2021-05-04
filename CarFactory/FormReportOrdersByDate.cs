@@ -75,9 +75,5 @@ namespace CarFactoryView
             }
         }
 
-        private void FormReportOrdersByDate_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
