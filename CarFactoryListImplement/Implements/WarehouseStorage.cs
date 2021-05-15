@@ -181,12 +181,7 @@ namespace CarFactoryListImplement.Implements
             };
         }
 
-        public bool TakeDetails(Dictionary<int, (string, int)> details, int necessaryDetailsCount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CheckDetails(CarViewModel model, int detailCountInOrder)
+        public bool CheckDetails(CarViewModel model, int detailCountInOrder)
         {
             throw new NotImplementedException();
         }

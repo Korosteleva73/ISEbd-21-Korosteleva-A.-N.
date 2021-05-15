@@ -142,6 +142,11 @@ namespace CarFactoryView
         }
 
 
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
+            form.ShowDialog();
+        }
         private void ДеталиМашиныToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportCarDetails>();
@@ -172,7 +177,7 @@ namespace CarFactoryView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    _reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
+                    reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
                     {
                         FileName = dialog.FileName
                     });
