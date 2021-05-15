@@ -1,4 +1,5 @@
 ﻿using CarFactoryBusinessLogic.HelperModels;
+using CarFactoryBusinessLogic.ViewModels;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2013.Excel;
@@ -283,5 +284,108 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             };
             mergeCells.Append(mergeCell);
         }
+        public static void CreateWarehouseDoc(WarehouseExcelInfo info)
+        {
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(info.FileName, SpreadsheetDocumentType.Workbook))
+            {
+                // Создаем книгу (в ней хранятся листы)
+                WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
+                workbookpart.Workbook = new Workbook();
+                CreateStyles(workbookpart);
+                // Получаем/создаем хранилище текстов для книги
+                SharedStringTablePart shareStringPart = spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Count() > 0
+                ? spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()
+                : spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
+                // Создаем SharedStringTable, если его нет
+                if (shareStringPart.SharedStringTable == null)
+                {
+                    shareStringPart.SharedStringTable = new SharedStringTable();
+                }
+                // Создаем лист в книгу
+                WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+                worksheetPart.Worksheet = new Worksheet(new SheetData());
+                // Добавляем лист в книгу
+                Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+                Sheet sheet = new Sheet()
+                {
+                    Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart),
+                    SheetId = 1,
+                    Name = "Лист"
+                };
+                sheets.Append(sheet);
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    Worksheet = worksheetPart.Worksheet,
+                    ShareStringPart = shareStringPart,
+                    ColumnName = "A",
+                    RowIndex = 1,
+                    Text = info.Title,
+                    StyleIndex = 2U
+                });
+                MergeCells(new ExcelMergeParameters
+                {
+                    Worksheet = worksheetPart.Worksheet,
+                    CellFromName = "A1",
+                    CellToName = "C1"
+                });
+                uint rowIndex = 2;
+                foreach (ReportWarehouseDetailsViewModel wd in info.WarehouseDetails)
+                {
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        Worksheet = worksheetPart.Worksheet,
+                        ShareStringPart = shareStringPart,
+                        ColumnName = "A",
+                        RowIndex = rowIndex,
+                        Text = wd.WarehouseName,
+                        StyleIndex = 0U
+                    });
+                    rowIndex++;
+                    foreach (var detail in wd.Details)
+                    {
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "B",
+                            RowIndex = rowIndex,
+                            Text = detail.Item1,
+                            StyleIndex = 1U
+                        });
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "C",
+                            RowIndex = rowIndex,
+                            Text = detail.Item2.ToString(),
+                            StyleIndex = 1U
+                        });
+                        rowIndex++;
+                    }
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        Worksheet = worksheetPart.Worksheet,
+                        ShareStringPart = shareStringPart,
+                        ColumnName = "A",
+                        RowIndex = rowIndex,
+                        Text = "Итого:",
+                        StyleIndex = 0U
+                    });
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        Worksheet = worksheetPart.Worksheet,
+                        ShareStringPart = shareStringPart,
+                        ColumnName = "C",
+                        RowIndex = rowIndex,
+                        Text = wd.TotalCount.ToString(),
+                        StyleIndex = 0U
+                    });
+                    rowIndex += 2;
+                }
+                workbookpart.Workbook.Save();
+            }
+        }
+
     }
 }

@@ -11,10 +11,14 @@ namespace CarFactoryBusinessLogic.BusinessLogics
     {
         private readonly object locker = new object();
         private readonly IOrderStorage _orderStorage;
+        private readonly ICarStorage _carStorage;
+        private readonly IWarehouseStorage _warehouseStorage;
 
-        public OrderLogic(IOrderStorage orderStorage)
+        public OrderLogic(IOrderStorage orderStorage, ICarStorage carStorage, IWarehouseStorage warehouseStorage)
         {
             _orderStorage = orderStorage;
+            _carStorage = carStorage;
+            _warehouseStorage = warehouseStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
