@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactorypRestApi", "..\Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarFactoryClientApp", "..\CarFactoryClientApp\CarFactoryClientApp.csproj", "{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarFactoryWarehouseBossApp", "..\CarFactoryWarehouseBossApp\CarFactoryWarehouseBossApp.csproj", "{30ED427E-8F89-45FD-8A9F-572E76F8CB5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D04D7E3E-863D-4F5F-BE2C-51CE5B0236CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30ED427E-8F89-45FD-8A9F-572E76F8CB5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30ED427E-8F89-45FD-8A9F-572E76F8CB5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30ED427E-8F89-45FD-8A9F-572E76F8CB5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30ED427E-8F89-45FD-8A9F-572E76F8CB5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
