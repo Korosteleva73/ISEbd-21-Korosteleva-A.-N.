@@ -35,7 +35,10 @@ namespace CarFactoryListImplement.Implements
             {
                 if (order.CarId == model.CarId)
                 {
-                    result.Add(CreateModel(order));
+                    if (order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                    {
+                        result.Add(CreateModel(order));
+                    }
                 }
             }
             return result;

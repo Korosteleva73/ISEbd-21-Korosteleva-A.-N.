@@ -3,6 +3,8 @@ using CarFactoryBusinessLogic.BusinessLogics;
 using System;
 using System.Windows.Forms;
 using Unity;
+using CarFactory;
+
 namespace CarFactoryView
 {
     public partial class FormCarFactory : Form
@@ -10,10 +12,12 @@ namespace CarFactoryView
         [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly OrderLogic _orderLogic;
-        public FormCarFactory(OrderLogic orderLogic, CarLogic carLogic)
+        private readonly ReportLogic _reportLogic;
+        public FormCarFactory(OrderLogic orderLogic,ReportLogic reportLogic)
         {
             InitializeComponent();
             this._orderLogic = orderLogic;
+            this._reportLogic = reportLogic;
         }
         private void FormCarFactory_Load(object sender, EventArgs e)
         {
@@ -116,6 +120,36 @@ namespace CarFactoryView
             LoadData();
         }
 
+        private void СписокМашинToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _reportLogic.SaveCarsToWordFile(new ReportBindingModel
+                    {
+                        FileName =
+                   dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+                }
+            }
+        }
+
+
+        private void ДеталиМашиныToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportCarDetails>();
+            form.ShowDialog();
+        }
+
+        private void СписокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportAboutOrders>();
+            form.ShowDialog();
+        }
+
         private void ПополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormWarehouseReplenishment>();
@@ -127,5 +161,34 @@ namespace CarFactoryView
             var form = Container.Resolve<FormWarehouses>();
             form.ShowDialog();
         }
+
+        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+
+                    MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void содержимоеСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportWarehouseDetails>();
+            form.ShowDialog();
+        }
+
+        private void заказыПоДатамToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportOrdersByDate>();
+            form.ShowDialog();
+        }
+
     }
 }

@@ -133,18 +133,18 @@ namespace CarFactoryListImplement.Implements
             // требуется дополнительно получить список деталей для машины с названиями и их количество
             Dictionary<int, (string, int)> carDetails = new
             Dictionary<int, (string, int)>();
-            foreach (var pc in car.CarDetails)
+            foreach (var cd in car.CarDetails)
             {
                 string detailName = string.Empty;
                 foreach (var detail in source.Details)
                 {
-                    if (pc.Key == detail.Id)
+                    if (cd.Key == detail.Id)
                     {
                         detailName = detail.DetailName;
                         break;
                     }
                 }
-                carDetails.Add(pc.Key, (detailName, pc.Value));
+                carDetails.Add(cd.Key, (detailName, cd.Value));
             }
             return new CarViewModel
             {

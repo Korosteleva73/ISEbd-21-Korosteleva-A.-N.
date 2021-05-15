@@ -57,10 +57,10 @@ namespace CarFactoryView
                 if (carDetails != null)
                 {
                     dataGridViewDetails.Rows.Clear();
-                    foreach (var pc in carDetails)
+                    foreach (var cd in carDetails)
                     {
-                        dataGridViewDetails.Rows.Add(new object[] { pc.Key, pc.Value.Item1,
-pc.Value.Item2 });
+                        dataGridViewDetails.Rows.Add(new object[] { cd.Key, cd.Value.Item1,
+cd.Value.Item2 });
                     }
                 }
             }

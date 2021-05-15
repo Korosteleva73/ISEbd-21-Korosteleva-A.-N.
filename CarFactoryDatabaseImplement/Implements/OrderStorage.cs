@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 namespace CarFactoryDatabaseImplement.Implements
 {
     public class OrderStorage : IOrderStorage
@@ -17,17 +17,7 @@ namespace CarFactoryDatabaseImplement.Implements
             {
                 return context.Orders
                     .Include(rec => rec.Car)
-                    .Select(rec => new OrderViewModel
-                    {
-                        Id = rec.Id,
-                        CarName = rec.Car.CarName,
-                        CarId = rec.CarId,
-                        Count = rec.Count,
-                        Sum = rec.Sum,
-                        Status = rec.Status,
-                        DateCreate = rec.DateCreate,
-                        DateImplement = rec.DateImplement
-                    })
+                    .Select(CreateModel)
                     .ToList();
             }
         }
@@ -40,19 +30,9 @@ namespace CarFactoryDatabaseImplement.Implements
             using (var context = new CarFactoryDatabase())
             {
                 return context.Orders
-                    .Where(rec => rec.CarId == model.CarId)
-                    .Include(rec => rec.Car)
-                    .Select(rec => new OrderViewModel
-                    {
-                        Id = rec.Id,
-                        CarName = rec.Car.CarName,
-                        CarId = rec.CarId,
-                        Count = rec.Count,
-                        Sum = rec.Sum,
-                        Status = rec.Status,
-                        DateCreate = rec.DateCreate,
-                        DateImplement = rec.DateImplement
-                    })
+                     .Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                     .Include(rec => rec.Car)
+                    .Select(CreateModel)
                     .ToList();
             }
         }
@@ -68,17 +48,7 @@ namespace CarFactoryDatabaseImplement.Implements
                     .FirstOrDefault(rec => rec.Id == model.Id);
 
                 return order != null ?
-                    new OrderViewModel
-                    {
-                        Id = order.Id,
-                        CarName = context.Cars.FirstOrDefault(rec => rec.Id == order.CarId)?.CarName,
-                        CarId = order.CarId,
-                        Count = order.Count,
-                        Sum = order.Sum,
-                        Status = order.Status,
-                        DateCreate = order.DateCreate,
-                        DateImplement = order.DateImplement
-                    } :
+                    CreateModel(order) :
                     null;
             }
         }
@@ -119,6 +89,22 @@ namespace CarFactoryDatabaseImplement.Implements
                 context.SaveChanges();
             }
         }
+
+        private OrderViewModel CreateModel(Order order)
+        {
+            return new OrderViewModel
+            {
+                Id = order.Id,
+                CarId = order.CarId,
+                CarName = order.Car.CarName,
+                Count = order.Count,
+                Sum = order.Sum,
+                Status = order.Status,
+                DateCreate = order.DateCreate,
+                DateImplement = order?.DateImplement
+            };
+        }
+
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.CarId = model.CarId;
