@@ -20,14 +20,7 @@ namespace CarFactoryView
         {
             try
             {
-                var list = logic.Read(null);
-                if (list != null)
-                {
-                    dataGridViewClients.DataSource = list;
-                    dataGridViewClients.Columns[0].Visible = false;
-                    dataGridViewClients.Columns[1].AutoSizeMode =
-                    DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(logic.Read(null), dataGridViewClients);
             }
             catch (Exception ex)
             {
