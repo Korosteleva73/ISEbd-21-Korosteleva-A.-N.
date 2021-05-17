@@ -11,13 +11,15 @@ namespace CarFactoryView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-        private readonly OrderLogic _orderLogic;
-        private readonly ReportLogic _reportLogic;
-        public FormCarFactory(OrderLogic orderLogic,ReportLogic reportLogic)
+        private readonly OrderLogic orderLogic;
+        private readonly ReportLogic reportLogic;
+        private readonly WorkModeling workModeling;
+        public FormCarFactory(OrderLogic orderLogic, ReportLogic reportLogic, WorkModeling workModeling)
         {
             InitializeComponent();
-            this._orderLogic = orderLogic;
-            this._reportLogic = reportLogic;
+            this.orderLogic = orderLogic;
+            this.reportLogic = reportLogic;
+            this.workModeling = workModeling;
         }
         private void FormCarFactory_Load(object sender, EventArgs e)
         {
@@ -27,13 +29,14 @@ namespace CarFactoryView
         {
             try
             {
-                var ordersList = _orderLogic.Read(null);
+                var ordersList = orderLogic.Read(null);
                 if (ordersList != null)
                 {
                     dataGridViewCarFactory.DataSource = ordersList;
                     dataGridViewCarFactory.Columns[0].Visible = false;
                     dataGridViewCarFactory.Columns[1].Visible = false;
                     dataGridViewCarFactory.Columns[2].Visible = false;
+                    dataGridViewCarFactory.Columns[3].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -65,7 +68,7 @@ namespace CarFactoryView
                 int id = Convert.ToInt32(dataGridViewCarFactory.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    _orderLogic.TakeOrderInWork(new ChangeStatusBindingModel
+                    orderLogic.TakeOrderInWork(new ChangeStatusBindingModel
                     {
                         OrderId =
                    id
@@ -86,7 +89,7 @@ namespace CarFactoryView
                 int id = Convert.ToInt32(dataGridViewCarFactory.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    _orderLogic.FinishOrder(new ChangeStatusBindingModel
+                    orderLogic.FinishOrder(new ChangeStatusBindingModel
                     {
                         OrderId = id
                     });
@@ -106,7 +109,7 @@ namespace CarFactoryView
                 int id = Convert.ToInt32(dataGridViewCarFactory.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    _orderLogic.PayOrder(new ChangeStatusBindingModel { OrderId = id });
+                    orderLogic.PayOrder(new ChangeStatusBindingModel { OrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -127,7 +130,7 @@ namespace CarFactoryView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    _reportLogic.SaveCarsToWordFile(new ReportBindingModel
+                    reportLogic.SaveCarsToWordFile(new ReportBindingModel
                     {
                         FileName =
                    dialog.FileName
@@ -139,6 +142,11 @@ namespace CarFactoryView
         }
 
 
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
+            form.ShowDialog();
+        }
         private void ДеталиМашиныToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportCarDetails>();
@@ -169,7 +177,7 @@ namespace CarFactoryView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    _reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
+                    reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
                     {
                         FileName = dialog.FileName
                     });
@@ -191,5 +199,16 @@ namespace CarFactoryView
             form.ShowDialog();
         }
 
+        private void отдатьНаИзготовлениеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            workModeling.DoWork();
+            LoadData();
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
     }
 }

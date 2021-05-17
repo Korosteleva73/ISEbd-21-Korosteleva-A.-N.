@@ -9,6 +9,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
 {
     public class OrderLogic
     {
+        private readonly object locker = new object();
         private readonly IOrderStorage _orderStorage;
         private readonly ICarStorage _carStorage;
         private readonly IWarehouseStorage _warehouseStorage;
@@ -48,39 +49,54 @@ namespace CarFactoryBusinessLogic.BusinessLogics
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = _orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
-            if (order == null)
+            lock (locker)
             {
-                throw new Exception("Заказ не найден");
-            }
-            if (order.Status != OrderStatus.Принят)
-            {
-                throw new Exception("Заказ не в статусе \"Принят\"");
-            }
-         var car = _carStorage.GetElement(new CarBindingModel
-            {
-                Id = order.CarId
-            });
+                OrderStatus status = OrderStatus.Выполняется;
+                var order = _orderStorage.GetElement(new OrderBindingModel
+                {
+                    Id = model.OrderId
+                });
+                if (order == null)
+                {
+                    throw new Exception("Не найден заказ");
+                }
+                if (order.Status != OrderStatus.Принят)
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\"");
+                }
+                if (order.ImplementerId.HasValue)
+                {
+                    throw new Exception("У заказа уже есть исполнитель");
+                }
 
-            _warehouseStorage.CheckDetails(car, order.Count);
-            _orderStorage.Update(new OrderBindingModel
-            {
-                Id = order.Id,
-                ClientId = order.ClientId,
-                CarId = order.CarId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                Status = OrderStatus.Выполняется
-            });
+                if (!_warehouseStorage.CheckDetails(_carStorage.GetElement(new CarBindingModel { Id = order.CarId }), order.Count))
+                {
+                    status = OrderStatus.ТребуютсяДетали;
+                }
+                _orderStorage.Update(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    CarId = order.CarId,
+                    ClientId = order.ClientId,
+                    ImplementerId = model.ImplementerId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    Status = status
+                });
+            }
+
         }
-
         public void FinishOrder(ChangeStatusBindingModel model)
         {
             var order = _orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
             if (order == null)
             {
                 throw new Exception("Заказ не найден");
+            }
+            if (order.Status == OrderStatus.ТребуютсяДетали && _warehouseStorage.CheckDetails(_carStorage.GetElement(new CarBindingModel { Id = order.CarId }), order.Count))
+            {
+                order.Status = OrderStatus.Выполняется;
             }
             if (order.Status != OrderStatus.Выполняется)
             {
@@ -90,14 +106,16 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             {
                 Id = order.Id,
                 ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
                 CarId = order.CarId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
+                DateImplement = DateTime.Now,
                 Status = OrderStatus.Готов
             });
         }
+
 
         public void PayOrder(ChangeStatusBindingModel model)
         {
@@ -114,11 +132,12 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             {
                 Id = order.Id,
                 ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
                 CarId = order.CarId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
+                DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
         }

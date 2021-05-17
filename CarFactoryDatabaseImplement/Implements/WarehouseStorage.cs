@@ -191,7 +191,7 @@ namespace CarFactoryDatabaseImplement.Implements
                             recPPC => (recPPC.Detail?.DetailName, recPPC.Count))
             }; 
         }
-        public void CheckDetails(CarViewModel model, int detailCountInOrder)
+        public bool CheckDetails(CarViewModel model, int detailCountInOrder)
         {
             using (var context = new CarFactoryDatabase())
             {
@@ -230,14 +230,15 @@ namespace CarFactoryDatabaseImplement.Implements
                         if (detailsCountInCar > 0)
                         {
                             transaction.Rollback();
-
-                            throw new Exception("Не хватает деталей для изготовления машины!");
+                            return false;
                         }
                     }
 
                     context.SaveChanges();
 
                     transaction.Commit();
+
+                    return true;
                 }
             }
         }
