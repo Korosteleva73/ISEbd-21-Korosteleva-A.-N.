@@ -38,16 +38,16 @@
             this.ДеталиtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.МашиныToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.складыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчётыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокМашинToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.деталиМашиныToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.пополнитьСкладToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridViewCarFactory = new System.Windows.Forms.DataGridView();
-            this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокСкладовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.содержимоеСкладовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заказыПоДатамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.пополнитьСкладToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridViewCarFactory = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCarFactory)).BeginInit();
             this.SuspendLayout();
@@ -143,9 +143,16 @@
             // складыToolStripMenuItem
             // 
             this.складыToolStripMenuItem.Name = "складыToolStripMenuItem";
-            this.складыToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
+            this.складыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.складыToolStripMenuItem.Text = "Склады";
             this.складыToolStripMenuItem.Click += new System.EventHandler(this.СкладыToolStripMenuItem_Click);
+            // 
+            // клиентыToolStripMenuItem
+            // 
+            this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
+            this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.клиентыToolStripMenuItem.Text = "Клиенты";
+            this.клиентыToolStripMenuItem.Click += new System.EventHandler(this.клиентыToolStripMenuItem_Click);
             // 
             // отчётыToolStripMenuItem
             // 
@@ -163,42 +170,23 @@
             // списокМашинToolStripMenuItem
             // 
             this.списокМашинToolStripMenuItem.Name = "списокМашинToolStripMenuItem";
-            this.списокМашинToolStripMenuItem.Size = new System.Drawing.Size(205, 26);
+            this.списокМашинToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
             this.списокМашинToolStripMenuItem.Text = "Список машин";
             this.списокМашинToolStripMenuItem.Click += new System.EventHandler(this.СписокМашинToolStripMenuItem_Click);
             // 
             // деталиМашиныToolStripMenuItem
             // 
             this.деталиМашиныToolStripMenuItem.Name = "деталиМашиныToolStripMenuItem";
-            this.деталиМашиныToolStripMenuItem.Size = new System.Drawing.Size(205, 26);
+            this.деталиМашиныToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
             this.деталиМашиныToolStripMenuItem.Text = "Детали машины";
             this.деталиМашиныToolStripMenuItem.Click += new System.EventHandler(this.ДеталиМашиныToolStripMenuItem_Click);
             // 
             // списокЗаказовToolStripMenuItem
             // 
             this.списокЗаказовToolStripMenuItem.Name = "списокЗаказовToolStripMenuItem";
-            this.списокЗаказовToolStripMenuItem.Size = new System.Drawing.Size(205, 26);
+            this.списокЗаказовToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
             this.списокЗаказовToolStripMenuItem.Text = "Список заказов";
             this.списокЗаказовToolStripMenuItem.Click += new System.EventHandler(this.СписокЗаказовToolStripMenuItem_Click);
-            // 
-            // пополнитьСкладToolStripMenuItem
-            // 
-            this.пополнитьСкладToolStripMenuItem.Name = "пополнитьСкладToolStripMenuItem";
-            this.пополнитьСкладToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
-            this.пополнитьСкладToolStripMenuItem.Text = "Пополнить склад";
-            this.пополнитьСкладToolStripMenuItem.Click += new System.EventHandler(this.ПополнитьСкладToolStripMenuItem_Click);
-            // 
-            // dataGridViewCarFactory
-            // 
-            this.dataGridViewCarFactory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewCarFactory.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dataGridViewCarFactory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCarFactory.Location = new System.Drawing.Point(13, 31);
-            this.dataGridViewCarFactory.Name = "dataGridViewCarFactory";
-            this.dataGridViewCarFactory.RowHeadersWidth = 51;
-            this.dataGridViewCarFactory.RowTemplate.Height = 24;
-            this.dataGridViewCarFactory.Size = new System.Drawing.Size(929, 408);
-            this.dataGridViewCarFactory.TabIndex = 6;
             // 
             // списокСкладовToolStripMenuItem
             // 
@@ -221,11 +209,24 @@
             this.заказыПоДатамToolStripMenuItem.Text = "Заказы по датам";
             this.заказыПоДатамToolStripMenuItem.Click += new System.EventHandler(this.заказыПоДатамToolStripMenuItem_Click);
             // 
-            // клиентыToolStripMenuItem
+            // пополнитьСкладToolStripMenuItem
             // 
-            this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
-            this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.клиентыToolStripMenuItem.Text = "Клиенты";
+            this.пополнитьСкладToolStripMenuItem.Name = "пополнитьСкладToolStripMenuItem";
+            this.пополнитьСкладToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
+            this.пополнитьСкладToolStripMenuItem.Text = "Пополнить склад";
+            this.пополнитьСкладToolStripMenuItem.Click += new System.EventHandler(this.ПополнитьСкладToolStripMenuItem_Click);
+            // 
+            // dataGridViewCarFactory
+            // 
+            this.dataGridViewCarFactory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewCarFactory.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dataGridViewCarFactory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCarFactory.Location = new System.Drawing.Point(13, 31);
+            this.dataGridViewCarFactory.Name = "dataGridViewCarFactory";
+            this.dataGridViewCarFactory.RowHeadersWidth = 51;
+            this.dataGridViewCarFactory.RowTemplate.Height = 24;
+            this.dataGridViewCarFactory.Size = new System.Drawing.Size(929, 408);
+            this.dataGridViewCarFactory.TabIndex = 6;
             // 
             // FormCarFactory
             // 
