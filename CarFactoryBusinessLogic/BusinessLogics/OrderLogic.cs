@@ -12,12 +12,16 @@ namespace CarFactoryBusinessLogic.BusinessLogics
     {
         private readonly object locker = new object();
         private readonly IOrderStorage _orderStorage;
+        private readonly ICarStorage _carStorage;
+        private readonly IWarehouseStorage _warehouseStorage;
         private readonly IClientStorage _clientStorage;
 
-        public OrderLogic(IOrderStorage orderStorage, IClientStorage clientStorage)
+        public OrderLogic(IOrderStorage orderStorage, ICarStorage carStorage, IWarehouseStorage warehouseStorage)
         {
             _orderStorage = orderStorage;
             _clientStorage = clientStorage;
+            _carStorage = carStorage;
+            _warehouseStorage = warehouseStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -56,6 +60,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
         {
             lock (locker)
             {
+                OrderStatus status = OrderStatus.Выполняется;
                 var order = _orderStorage.GetElement(new OrderBindingModel
                 {
                     Id = model.OrderId
@@ -72,6 +77,11 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                 {
                     throw new Exception("У заказа уже есть исполнитель");
                 }
+
+                if (!_warehouseStorage.CheckDetails(_carStorage.GetElement(new CarBindingModel { Id = order.CarId }), order.Count))
+                {
+                    status = OrderStatus.ТребуютсяДетали;
+                }
                 _orderStorage.Update(new OrderBindingModel
                 {
                     Id = order.Id,
@@ -81,7 +91,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                     Count = order.Count,
                     Sum = order.Sum,
                     DateCreate = order.DateCreate,
-                    Status = OrderStatus.Выполняется
+                    Status = status
                 });
                 MailLogic.MailSendAsync(new MailSendInfo
                 {
@@ -98,6 +108,10 @@ namespace CarFactoryBusinessLogic.BusinessLogics
             if (order == null)
             {
                 throw new Exception("Заказ не найден");
+            }
+            if (order.Status == OrderStatus.ТребуютсяДетали && _warehouseStorage.CheckDetails(_carStorage.GetElement(new CarBindingModel { Id = order.CarId }), order.Count))
+            {
+                order.Status = OrderStatus.Выполняется;
             }
             if (order.Status != OrderStatus.Выполняется)
             {
