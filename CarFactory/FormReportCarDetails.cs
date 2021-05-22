@@ -1,6 +1,7 @@
 ﻿using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.BusinessLogics;
 using System;
+using System.Reflection;
 using System.Windows.Forms;
 using Unity;
 namespace CarFactoryView
@@ -48,10 +49,11 @@ namespace CarFactoryView
                 {
                     try
                     {
-                        logic.SaveCarDetailToExcelFile(new ReportBindingModel
+                        MethodInfo method = logic.GetType().GetMethod("SaveCarDetailToExcelFile");
+                        method.Invoke(logic, new object[] { new ReportBindingModel
                         {
                             FileName = dialog.FileName
-                        });
+                        }});
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)

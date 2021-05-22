@@ -2,6 +2,7 @@
 using CarFactoryBusinessLogic.BusinessLogics;
 using Microsoft.Reporting.WinForms;
 using System;
+using System.Reflection;
 using System.Windows.Forms;
 using Unity;
 
@@ -26,7 +27,7 @@ namespace CarFactoryView
                 return;
             }
             try
-           {
+            {
                 ReportParameter parameter = new ReportParameter("ReportParameterPeriod", "c " + dateTimePickerFrom.Value.ToShortDateString() + " по " + dateTimePickerTo.Value.ToShortDateString());
                 reportViewer.LocalReport.SetParameters(parameter);
                 var dataSource = logic.GetOrders(new ReportBindingModel
@@ -60,12 +61,13 @@ namespace CarFactoryView
                 {
                     try
                     {
-                        logic.SaveOrdersToPdfFile(new ReportBindingModel
-                        {
+                        MethodInfo method = logic.GetType().GetMethod("SaveOrdersToPdfFile");
+                        method.Invoke(logic, new object[] { new ReportBindingModel     
+                        {                                            
                             FileName = dialog.FileName,
                             DateFrom = dateTimePickerFrom.Value,
                             DateTo = dateTimePickerTo.Value
-                        });
+                        }});
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     }

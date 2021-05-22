@@ -55,11 +55,11 @@ namespace CarFactoryView
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClientStorage, ClientStorage>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IMessageInfoStorage, MessageInfoStorage>(new 
+            currentContainer.RegisterType<IMessageInfoStorage, MessageInfoStorage>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IImplementerStorage, ImplementerStorage>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<OrderLogic>(new 
+            currentContainer.RegisterType<OrderLogic>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<DetailLogic>(new
            HierarchicalLifetimeManager());
@@ -89,8 +89,7 @@ namespace CarFactoryView
             foreach (var prop in type.GetProperties())
             {
                 // получаем список атрибутов
-                var attributes =
-                prop.GetCustomAttributes(typeof(ColumnAttribute), true);
+                var attributes = prop.GetCustomAttributes(typeof(ColumnAttribute), true);
                 if (attributes != null && attributes.Length > 0)
                 {
                     foreach (var attr in attributes)
@@ -105,10 +104,10 @@ namespace CarFactoryView
                                 ReadOnly = true,
                                 HeaderText = columnAttr.Title,
                                 Visible = columnAttr.Visible,
-                                Width = columnAttr.Width
+                                Width = columnAttr.Width,
+                                DefaultCellStyle = new DataGridViewCellStyle { Format = columnAttr.Format ?? "" }
                             };
-                            if (columnAttr.GridViewAutoSize !=
-                            GridViewAutoSize.None)
+                            if (columnAttr.GridViewAutoSize != GridViewAutoSize.None)
                             {
                                 column.AutoSizeMode =
                                 (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode),
@@ -125,8 +124,7 @@ namespace CarFactoryView
                 List<object> objs = new List<object>();
                 foreach (var conf in config)
                 {
-                    var value =
-                    elem.GetType().GetProperty(conf).GetValue(elem);
+                    var value = elem.GetType().GetProperty(conf).GetValue(elem);
                     objs.Add(value);
                 }
                 grid.Rows.Add(objs.ToArray());
