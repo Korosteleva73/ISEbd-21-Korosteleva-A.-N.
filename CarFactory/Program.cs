@@ -51,6 +51,8 @@ namespace CarFactoryView
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<ICarStorage, CarStorage>(new
            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWarehouseStorage, WarehouseStorage>(new
+           HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClientStorage, ClientStorage>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMessageInfoStorage, MessageInfoStorage>(new 

@@ -38,11 +38,11 @@
             // 
             // ButtonSaveToExcel
             // 
-            this.ButtonSaveToExcel.Location = new System.Drawing.Point(12, 13);
+            this.ButtonSaveToExcel.Location = new System.Drawing.Point(12, 12);
             this.ButtonSaveToExcel.Name = "ButtonSaveToExcel";
-            this.ButtonSaveToExcel.Size = new System.Drawing.Size(133, 39);
+            this.ButtonSaveToExcel.Size = new System.Drawing.Size(273, 39);
             this.ButtonSaveToExcel.TabIndex = 0;
-            this.ButtonSaveToExcel.Text = "Сохранить в Exel";
+            this.ButtonSaveToExcel.Text = "Сохранить в Excel";
             this.ButtonSaveToExcel.UseVisualStyleBackColor = true;
             this.ButtonSaveToExcel.Click += new System.EventHandler(this.ButtonSaveToExcel_Click);
             // 
@@ -54,20 +54,20 @@
             this.Detail,
             this.Car,
             this.Count});
-            this.dataGridView.Location = new System.Drawing.Point(0, 69);
+            this.dataGridView.Location = new System.Drawing.Point(12, 58);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowHeadersWidth = 51;
             this.dataGridView.RowTemplate.Height = 24;
-            this.dataGridView.Size = new System.Drawing.Size(800, 381);
+            this.dataGridView.Size = new System.Drawing.Size(776, 381);
             this.dataGridView.TabIndex = 1;
             // 
             // Detail
             // 
+            this.Detail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Detail.HeaderText = "Машина";
             this.Detail.MinimumWidth = 6;
             this.Detail.Name = "Detail";
-            this.Detail.Width = 250;
             // 
             // Car
             // 

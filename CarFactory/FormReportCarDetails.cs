@@ -19,7 +19,7 @@ namespace CarFactoryView
         {
             try
             {
-                var dict = logic.GetCarDetail();
+                var dict = logic.GetCarDetails();
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();

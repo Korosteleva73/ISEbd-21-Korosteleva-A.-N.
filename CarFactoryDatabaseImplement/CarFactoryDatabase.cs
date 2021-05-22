@@ -8,10 +8,13 @@ namespace CarFactoryDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarFactoryDB;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarFactoryDBlab7bop;Integrated Security=True;MultipleActiveResultSets=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }
+
+        public virtual DbSet<WarehouseDetail> WarehouseDetails { set; get; }
+        public virtual DbSet<Warehouse> Warehouses { set; get; }
         public virtual DbSet<Detail> Details { set; get; }
         public virtual DbSet<Car> Cars { set; get; }
         public virtual DbSet<CarDetail> CarDetails { set; get; }

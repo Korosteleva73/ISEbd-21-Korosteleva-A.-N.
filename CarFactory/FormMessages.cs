@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using CarFactoryBusinessLogic.BusinessLogics;
+using CarFactoryBusinessLogic.BindingModels;
 using Unity;
 
 namespace CarFactoryView
@@ -10,25 +12,66 @@ namespace CarFactoryView
         [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly MailLogic logic;
+        private bool hasNext = false;
+        private readonly int mailsOnPage = 2;
+        private int currentPage = 0;
+
         public FormMessages(MailLogic logic)
         {
             InitializeComponent();
+            if (mailsOnPage < 1) { mailsOnPage = 5; }
             this.logic = logic;
         }
+
         private void FormMessages_Load(object sender, EventArgs e)
         {
             LoadData();
         }
+
         private void LoadData()
         {
-            try
+            var list = logic.Read(new MessageInfoBindingModel { ToSkip = currentPage * mailsOnPage, ToTake = mailsOnPage + 1 });
+            hasNext = !(list.Count() <= mailsOnPage);
+            if (hasNext)
             {
-                Program.ConfigGrid(logic.Read(null), dataGridView);
+                buttonNext.Enabled = true;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
+                buttonNext.Enabled = false;
+            }
+            if (list != null)
+            {
+                dataGridView.DataSource = list.Take(mailsOnPage).ToList();
+                dataGridView.Columns[0].Visible = false;
+                dataGridView.Columns[4].AutoSizeMode =
+                DataGridViewAutoSizeColumnMode.Fill;
+            }
+        }
+
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            if (hasNext)
+            {
+                currentPage++;
+                textBoxPage.Text = (currentPage + 1).ToString();
+                buttonPrev.Enabled = true;
+                LoadData();
+            }
+        }
+
+        private void buttonPrev_Click(object sender, EventArgs e)
+        {
+            if ((currentPage - 1) >= 0)
+            {
+                currentPage--;
+                textBoxPage.Text = (currentPage + 1).ToString();
+                buttonNext.Enabled = true;
+                if (currentPage == 0)
+                {
+                    buttonPrev.Enabled = false;
+                }
+                LoadData();
             }
         }
     }
