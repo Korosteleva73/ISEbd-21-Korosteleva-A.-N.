@@ -16,7 +16,7 @@ namespace CarFactoryBusinessLogic.BusinessLogics
         private readonly IWarehouseStorage _warehouseStorage;
         private readonly IClientStorage _clientStorage;
 
-        public OrderLogic(IOrderStorage orderStorage, ICarStorage carStorage, IWarehouseStorage warehouseStorage)
+        public OrderLogic(IOrderStorage orderStorage, ICarStorage carStorage, IWarehouseStorage warehouseStorage, IClientStorage clientStorage)
         {
             _orderStorage = orderStorage;
             _clientStorage = clientStorage;

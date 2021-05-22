@@ -48,7 +48,6 @@
             this.заказыПоДатамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отдатьНаИзготовлениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.пополнитьСкладToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fbcmvfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewCarFactory = new System.Windows.Forms.DataGridView();
             this.письмаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
@@ -92,9 +91,7 @@
             this.toolStripMenuItem,
             this.отчётыToolStripMenuItem,
             this.отдатьНаИзготовлениеToolStripMenuItem,
-            this.fbcmvfToolStripMenuItem,
-            this.письмаToolStripMenuItem});
-            this.отдатьНаИзготовлениеToolStripMenuItem,
+            this.письмаToolStripMenuItem,
             this.пополнитьСкладToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -218,11 +215,6 @@
             this.отдатьНаИзготовлениеToolStripMenuItem.Text = "Отдать на исполнение";
             this.отдатьНаИзготовлениеToolStripMenuItem.Click += new System.EventHandler(this.отдатьНаИзготовлениеToolStripMenuItem_Click);
             // 
-            // fbcmvfToolStripMenuItem
-            // 
-            this.fbcmvfToolStripMenuItem.Name = "fbcmvfToolStripMenuItem";
-            this.fbcmvfToolStripMenuItem.Size = new System.Drawing.Size(14, 24);
-            // 
             // пополнитьСкладToolStripMenuItem
             // 
             this.пополнитьСкладToolStripMenuItem.Name = "пополнитьСкладToolStripMenuItem";
@@ -293,7 +285,6 @@
         private System.Windows.Forms.ToolStripMenuItem заказыПоДатамToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem отдатьНаИзготовлениеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fbcmvfToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem письмаToolStripMenuItem;
     }
 }
