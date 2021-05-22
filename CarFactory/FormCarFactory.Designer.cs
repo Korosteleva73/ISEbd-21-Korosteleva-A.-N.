@@ -94,9 +94,7 @@
             this.отчётыToolStripMenuItem,
             this.отдатьНаИзготовлениеToolStripMenuItem,
             this.письмаToolStripMenuItem,
-            this.пополнитьСкладToolStripMenuItem});
-            this.fbcmvfToolStripMenuItem,
-            this.письмаToolStripMenuItem,
+            this.пополнитьСкладToolStripMenuItem,
             this.создатьБекапToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
