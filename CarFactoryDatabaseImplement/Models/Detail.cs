@@ -11,5 +11,7 @@ namespace CarFactoryDatabaseImplement.Models
         public string DetailName { get; set; }
         [ForeignKey("DetailId")]
         public virtual List<CarDetail> CarDetails { get; set; }
+        [ForeignKey("DetailId")]
+        public virtual List<WarehouseDetail> WarehouseDetails { get; set; }
     }
 }

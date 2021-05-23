@@ -1,9 +1,10 @@
 ﻿using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.BusinessLogics;
-using CarFactoryBusinessLogic.ViewModels;
 using System;
 using System.Windows.Forms;
 using Unity;
+using CarFactory;
+
 namespace CarFactoryView
 {
     public partial class FormCarFactory : Form
@@ -147,6 +148,46 @@ namespace CarFactoryView
         private void СписокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportAboutOrders>();
+            form.ShowDialog();
+        }
+
+        private void ПополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouseReplenishment>();
+            form.ShowDialog();
+        }
+
+        private void СкладыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouses>();
+            form.ShowDialog();
+        }
+
+        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+
+                    MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void содержимоеСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportWarehouseDetails>();
+            form.ShowDialog();
+        }
+
+        private void заказыПоДатамToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportOrdersByDate>();
             form.ShowDialog();
         }
 

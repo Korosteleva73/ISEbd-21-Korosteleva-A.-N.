@@ -5,6 +5,7 @@ using System;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
+
 namespace CarFactoryView
 {
     static class Program
@@ -28,6 +29,8 @@ namespace CarFactoryView
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<ICarStorage, CarStorage>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWarehouseStorage, WarehouseStorage>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClientStorage, ClientStorage>(new
            HierarchicalLifetimeManager());
