@@ -128,13 +128,13 @@ namespace CarFactoryView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    reportLogic.SaveCarsToWordFile(new ReportBindingModel
-                    {
-                        FileName =
-                   dialog.FileName
-                    });
+                    MethodInfo method = reportLogic.GetType().GetMethod("SaveCarsToWordFile");
+                    method.Invoke(reportLogic, new object[] { new ReportBindingModel
+                        {
+                            FileName = dialog.FileName
+                        }});
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
-                   MessageBoxIcon.Information);
+                    MessageBoxIcon.Information);
                 }
             }
         }
@@ -175,12 +175,13 @@ namespace CarFactoryView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
-                    {
-                        FileName = dialog.FileName
-                    });
-
-                    MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MethodInfo method = reportLogic.GetType().GetMethod("SaveWarehouseesToWordFile");
+                    method.Invoke(reportLogic, new object[] { new ReportBindingModel
+                        {
+                            FileName = dialog.FileName
+                        }});
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 }
             }
         }

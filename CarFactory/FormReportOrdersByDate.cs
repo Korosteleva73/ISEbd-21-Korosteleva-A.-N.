@@ -29,11 +29,12 @@ namespace CarFactoryView
             }
             try
             {
-                var dataSource = logic.GetOrderReportByDate(new ReportBindingModel
-                {
-                    DateTo = dateTimePickerTo.Value,
-                    DateFrom = dateTimePickerFrom.Value
-                });
+                MethodInfo method = logic.GetType().GetMethod("GetOrderReportByDate");
+                var dataSource = method.Invoke(logic, new object[] { new ReportBindingModel
+                        {
+                            DateFrom = dateTimePickerFrom.Value,
+                            DateTo = dateTimePickerTo.Value
+                        }});
                 ReportDataSource source = new ReportDataSource("DataSetOrdersByDate", dataSource);
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
