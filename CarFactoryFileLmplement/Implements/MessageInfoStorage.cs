@@ -30,6 +30,8 @@ namespace CarFactoryFileImplement.Implements
             return source.Messages
             .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
                 (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))
+            .Skip(model.ToSkip ?? 0)
+             .Take(model.ToTake ?? source.Messages.Count())
             .Select(CreateModel)
             .ToList();
         }

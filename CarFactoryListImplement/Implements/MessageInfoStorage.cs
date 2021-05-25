@@ -38,6 +38,14 @@ namespace CarFactoryListImplement.Implements
                     result.Add(CreateModel(message));
                 }
             }
+            List<MessageInfoViewModel> finalResult = new List<MessageInfoViewModel>();
+            for (int i = 0; i < result.Count; i++)
+            {
+                if (i >= model.ToSkip && i < model.ToSkip + model.ToTake)
+                {
+                    finalResult.Add(result[i]);
+                }
+            }
             if (result.Count > 0)
             {
                 return result;
