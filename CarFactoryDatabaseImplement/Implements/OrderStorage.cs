@@ -43,7 +43,7 @@ namespace CarFactoryDatabaseImplement.Implements
                     (model.FreeOrders.HasValue && model.FreeOrders.Value && rec.Status ==
                     OrderStatus.Принят) ||
                      (model.ImplementerId.HasValue && rec.ImplementerId ==
-                    model.ImplementerId && rec.Status == OrderStatus.Выполняется) || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.ТребуютсяДетали)
+                    model.ImplementerId && (rec.Status == OrderStatus.Выполняется || rec.Status == OrderStatus.ТребуютсяДетали))
                     )
                     .Select(CreateModel).ToList();
             }

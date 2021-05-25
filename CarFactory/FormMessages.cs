@@ -40,12 +40,10 @@ namespace CarFactoryView
                 hasNext = !(list.Count() <= mailsOnPage);
                 if (hasNext)
                 {
-                    buttonNext.Text = "Next " + (currentPage + 2);
                     buttonNext.Enabled = true;
                 }
                 else
                 {
-                    buttonNext.Text = "Next";
                     buttonNext.Enabled = false;
                 }
                 generic.Invoke(this, new object[] { list.Take(mailsOnPage).ToList(), dataGridView });
