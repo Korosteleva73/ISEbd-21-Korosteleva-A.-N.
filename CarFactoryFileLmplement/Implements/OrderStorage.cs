@@ -32,9 +32,9 @@ namespace CarFactoryFileImplement.Implements
               (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
               (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
               (model.FreeOrders.HasValue && model.FreeOrders.Value && rec.Status == OrderStatus.Принят) ||
-              (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется))
-              .Select(CreateModel)
-            .ToList();
+              (model.ImplementerId.HasValue && rec.ImplementerId ==
+               model.ImplementerId && (rec.Status == OrderStatus.Выполняется || rec.Status == OrderStatus.ТребуютсяДетали)))
+              .Select(CreateModel).ToList();
         }
         public OrderViewModel GetElement(OrderBindingModel model)
         {

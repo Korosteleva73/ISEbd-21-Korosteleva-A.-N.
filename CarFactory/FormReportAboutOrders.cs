@@ -80,8 +80,6 @@ namespace CarFactoryView
 
         private void FormReportOrders_Load(object sender, EventArgs e)
         {
-
-            this.reportViewer.RefreshReport();
             this.reportViewer.RefreshReport();
         }
     }

@@ -11,12 +11,14 @@ namespace CarFactoryFileImplement
     public class FileDataListSingleton
     {
         private static FileDataListSingleton instance;
+        private readonly string MessageFileName = "Message.xml";
         private readonly string ImplementerFileName = "Implementer.xml";
         private readonly string DetailFileName = "Detail.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string CarFileName = "Car.xml";
         private readonly string ClientFileName = "Client.xml";
 
+        public List<MessageInfo> Messages { get; set; }
         public List<Implementer> Implementers { get; set; }
         private readonly string WarehouseFileName = "Warehouse.xml";
         public List<Detail> Details { get; set; }
@@ -27,6 +29,7 @@ namespace CarFactoryFileImplement
 
         private FileDataListSingleton()
         {
+            Messages = LoadMessages();
             Details = LoadDetails();
             Orders = LoadOrders();
             Cars = LoadCars();
@@ -44,6 +47,7 @@ namespace CarFactoryFileImplement
         }
         ~FileDataListSingleton()
         {
+            SaveMessages();
             SaveDetails();
             SaveOrders();
             SaveCars();
@@ -69,6 +73,30 @@ namespace CarFactoryFileImplement
             }
             return list;
         }
+
+        private List<MessageInfo> LoadMessages()
+        {
+            var list = new List<MessageInfo>();
+            if (File.Exists(MessageFileName))
+            {
+                XDocument xDocument = XDocument.Load(MessageFileName);
+                var xElements = xDocument.Root.Elements("Message").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new MessageInfo
+                    {
+                        MessageId = elem.Attribute("MessageId").Value,
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
+                        SenderName = elem.Element("SenderName").Value,
+                        DateDelivery = Convert.ToDateTime(elem.Element("DateDelivery")?.Value),
+                        Subject = elem.Element("Subject").Value,
+                        Body = elem.Element("Body").Value,
+                    });
+                }
+            }
+            return list;
+        }
+
         private List<Order> LoadOrders()
         {
             var list = new List<Order>();
@@ -213,6 +241,26 @@ namespace CarFactoryFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(DetailFileName);
+            }
+        }
+        private void SaveMessages()
+        {
+            if (Messages != null)
+            {
+                var xElement = new XElement("Messages");
+                foreach (var message in Messages)
+                {
+                    xElement.Add(new XElement("Message",
+                    new XAttribute("MessageId", message.MessageId),
+                    new XElement("ClientId", message.ClientId),
+                    new XElement("SenderName", message.SenderName),
+                    new XElement("DateDelivery", message.DateDelivery),
+                    new XElement("Subject", message.Subject),
+                    new XElement("Body", message.Body)
+                    ));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(MessageFileName);
             }
         }
         private void SaveOrders()
