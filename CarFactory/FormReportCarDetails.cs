@@ -1,6 +1,8 @@
 ﻿using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.BusinessLogics;
+using CarFactoryBusinessLogic.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
 using Unity;
@@ -20,7 +22,9 @@ namespace CarFactoryView
         {
             try
             {
-                var dict = logic.GetCarDetails();
+                MethodInfo method = logic.GetType().GetMethod("GetCarDetails");
+                var dict =  (List<ReportCarDetailViewModel>)method.Invoke(logic, null);
+
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
