@@ -55,8 +55,8 @@ namespace CarFactoryBusinessLogic.BusinessLogics
                 }
                 catch (Exception) { }
             }
-            var ordersWithNeedMaterials = await Task.Run(() => _orderStorage.GetFilteredList(new OrderBindingModel { ImplementerId = implementer.Id, Status = Enums.OrderStatus.ТребуютсяДетали }));
-            foreach (var order in ordersWithNeedMaterials)
+            var ordersWithNeeddetails = await Task.Run(() => _orderStorage.GetFilteredList(new OrderBindingModel { ImplementerId = implementer.Id, Status = Enums.OrderStatus.ТребуютсяДетали }));
+            foreach (var order in ordersWithNeeddetails)
             {
                 // делаем работу заново
                 try
