@@ -4,6 +4,8 @@ using System;
 using System.Windows.Forms;
 using Unity;
 using CarFactory;
+using System.Reflection;
+using CarFactoryBusinessLogic.ViewModels;
 
 namespace CarFactoryView
 {
@@ -14,12 +16,14 @@ namespace CarFactoryView
         private readonly OrderLogic orderLogic;
         private readonly ReportLogic reportLogic;
         private readonly WorkModeling workModeling;
-        public FormCarFactory(OrderLogic orderLogic, ReportLogic reportLogic, WorkModeling workModeling)
+        private readonly BackUpAbstractLogic backUpAbstractLogic;
+        public FormCarFactory(OrderLogic orderLogic, ReportLogic reportLogic, WorkModeling workModeling, BackUpAbstractLogic backUpAbstractLogic)
         {
             InitializeComponent();
             this.orderLogic = orderLogic;
             this.reportLogic = reportLogic;
             this.workModeling = workModeling;
+            this.backUpAbstractLogic = backUpAbstractLogic;
         }
         private void FormCarFactory_Load(object sender, EventArgs e)
         {
@@ -29,15 +33,9 @@ namespace CarFactoryView
         {
             try
             {
-                var ordersList = orderLogic.Read(null);
-                if (ordersList != null)
-                {
-                    dataGridViewCarFactory.DataSource = ordersList;
-                    dataGridViewCarFactory.Columns[0].Visible = false;
-                    dataGridViewCarFactory.Columns[1].Visible = false;
-                    dataGridViewCarFactory.Columns[2].Visible = false;
-                    dataGridViewCarFactory.Columns[3].Visible = false;
-                }
+                var method = typeof(Program).GetMethod("ConfigGrid");
+                MethodInfo generic = method.MakeGenericMethod(typeof(OrderViewModel));
+                generic.Invoke(this, new object[] { orderLogic.Read(null), dataGridViewCarFactory });
             }
             catch (Exception ex)
             {
@@ -130,13 +128,13 @@ namespace CarFactoryView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    reportLogic.SaveCarsToWordFile(new ReportBindingModel
-                    {
-                        FileName =
-                   dialog.FileName
-                    });
+                    MethodInfo method = reportLogic.GetType().GetMethod("SaveCarsToWordFile");
+                    method.Invoke(reportLogic, new object[] { new ReportBindingModel
+                        {
+                            FileName = dialog.FileName
+                        }});
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
-                   MessageBoxIcon.Information);
+                    MessageBoxIcon.Information);
                 }
             }
         }
@@ -177,12 +175,13 @@ namespace CarFactoryView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    reportLogic.SaveWarehouseesToWordFile(new ReportBindingModel
-                    {
-                        FileName = dialog.FileName
-                    });
-
-                    MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MethodInfo method = reportLogic.GetType().GetMethod("SaveWarehouseesToWordFile");
+                    method.Invoke(reportLogic, new object[] { new ReportBindingModel
+                        {
+                            FileName = dialog.FileName
+                        }});
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 }
             }
         }
@@ -215,6 +214,28 @@ namespace CarFactoryView
         {
             var form = Container.Resolve<FormMessages>();
             form.ShowDialog();
+        }
+
+        private void создатьБекапToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (backUpAbstractLogic != null)
+                {
+                    var fbd = new FolderBrowserDialog();
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        backUpAbstractLogic.CreateArchive(fbd.SelectedPath);
+                        MessageBox.Show("Бекап создан", "Сообщение",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            }
         }
     }
 }

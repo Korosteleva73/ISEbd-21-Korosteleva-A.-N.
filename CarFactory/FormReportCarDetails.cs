@@ -1,6 +1,9 @@
 ﻿using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.BusinessLogics;
+using CarFactoryBusinessLogic.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
 using Unity;
 namespace CarFactoryView
@@ -19,7 +22,9 @@ namespace CarFactoryView
         {
             try
             {
-                var dict = logic.GetCarDetails();
+                MethodInfo method = logic.GetType().GetMethod("GetCarDetails");
+                var dict =  (List<ReportCarDetailViewModel>)method.Invoke(logic, null);
+
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
@@ -48,10 +53,11 @@ namespace CarFactoryView
                 {
                     try
                     {
-                        logic.SaveCarDetailToExcelFile(new ReportBindingModel
+                        MethodInfo method = logic.GetType().GetMethod("SaveCarDetailToExcelFile");
+                        method.Invoke(logic, new object[] { new ReportBindingModel
                         {
                             FileName = dialog.FileName
-                        });
+                        }});
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)

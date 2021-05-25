@@ -1,21 +1,27 @@
-﻿using System;
+﻿using CarFactoryBusinessLogic.Attributes;
+using CarFactoryBusinessLogic.Enums;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace CarFactoryBusinessLogic.ViewModels
 {
     public class WarehouseViewModel
     {
+        [Column(title: "Номер", width: 50)]
+        [DataMember]
         public int Id { get; set; }
 
-        [DisplayName("Название")]
+        [Column(title: "Название склада", width: 150)]
+        [DataMember]
         public string WarehouseName { get; set; }
 
-        [DisplayName("Ответственный")]
+        [Column(title: "Ответсьвенный", width: 150)]
+        [DataMember]
         public string WarehouseBoss { get; set; }
 
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", width: 100, format: "D")]
+        [DataMember]
         public DateTime DateCreate { get; set; }
 
         public Dictionary<int, (string, int)> WarehouseDetails { get; set; }

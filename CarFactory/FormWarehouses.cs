@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using Unity;
 using CarFactoryBusinessLogic.BindingModels;
 using CarFactoryBusinessLogic.BusinessLogics;
+using System.Reflection;
+using CarFactoryBusinessLogic.ViewModels;
 
 namespace CarFactoryView
 {
@@ -23,16 +25,11 @@ namespace CarFactoryView
         {
             try
             {
-                var list = logic.Read(null);
-
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[4].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                var method = typeof(Program).GetMethod("ConfigGrid");
+                MethodInfo generic = method.MakeGenericMethod(typeof(WarehouseViewModel));
+                generic.Invoke(this, new object[] { logic.Read(null), dataGridView });
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
